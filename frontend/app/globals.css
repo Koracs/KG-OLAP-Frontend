@@ -78,7 +78,7 @@ a {
 }
 
 .navBar li a:hover, .active, li button:hover {
-  background-color: #333;
+  background-color: #666;
 }
 
 
