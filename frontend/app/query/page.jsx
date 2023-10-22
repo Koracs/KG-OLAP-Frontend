@@ -1,10 +1,12 @@
 import {getServerSession} from "next-auth";
 import {options} from "../api/auth/[...nextauth]/options";
+import {redirect} from "next/navigation";
+
 export default async function QueryPage(){
     const session = await getServerSession(options)
 
     if(!session){
-        console.log("No session");
+        redirect("/api/auth/signin?callbackUrl=/query")
     }
 
     return (
