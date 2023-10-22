@@ -29,8 +29,8 @@
   position: relative;
   margin: 0;
   padding: 1rem;
-  background-color: rgba(var(--callout-rgb), 0.5);
-  border: 1px solid rgba(var(--callout-border-rgb), 0.3);
+  background-color: rgba(var(--secondary-color), 0.5);
+  border: 1px solid rgba(var(--border-color), 0.3);
   border-radius: var(--border-radius);
 }
 
@@ -177,11 +177,11 @@
     padding: 2rem 1rem 1.4rem;
     border-radius: 0;
     border: none;
-    border-bottom: 1px solid rgba(var(--callout-border-rgb), 0.25);
+    border-bottom: 1px solid rgba(var(--border-color), 0.25);
     background: linear-gradient(
       to bottom,
       rgba(var(--background-start-rgb), 1),
-      rgba(var(--callout-rgb), 0.5)
+      rgba(var(--secondary-color), 0.5)
     );
     background-clip: padding-box;
     backdrop-filter: blur(24px);

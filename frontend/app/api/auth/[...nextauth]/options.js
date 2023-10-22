@@ -55,7 +55,8 @@ export const options = {
                     return refreshedToken;
                 } catch (error) {
                     console.error("Error refreshing access token", error);
-                    return {...token, error: "RefreshAccessTokenError"};
+                    return null; //Return null to terminate session
+                    //return {...token, error: "RefreshAccessTokenError"};
                 }
             }
         },

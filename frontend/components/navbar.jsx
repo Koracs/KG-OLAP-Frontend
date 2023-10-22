@@ -1,6 +1,6 @@
-
 import Link from "next/link";
 import AuthStatus from "./authstatus";
+import ThemeChanger from "./themechanger";
 
 export default function NavBar() {
 
@@ -10,8 +10,12 @@ export default function NavBar() {
                 <li><Link href="/">Home</Link></li>
                 <li><Link href="/query">Query</Link></li>
                 <li><Link href="/client">Client</Link></li>
-                <AuthStatus/>
+                <div style={{float: "right"}}>
+                    <ThemeChanger/>
+                    <AuthStatus/>
+                </div>
             </ul>
+
         </nav>
     );
 }
