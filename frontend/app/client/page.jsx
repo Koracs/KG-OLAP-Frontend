@@ -10,7 +10,7 @@ export default function ClientPage(){
 
     return (
         <>
-            <p1>Client</p1>
+            <h1>Client</h1>
             <p>{session?.user.name}</p>
         </>
     )
