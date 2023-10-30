@@ -13,8 +13,10 @@ export default async function QueryPage(){
     async function validateQuery(query) {
         "use server"
 
-        const data = query.get("queryInput")?.valueOf();
-        console.log(data)
+        const text = query.get("queryInput")?.valueOf();
+        const match = text.match(/^SELECT((\s\*)|(?:\s\w+=[^\s]+)(?:\sAND\s\w+=[^\s]+)*)(\sROLLUP ON(\s\w+)((,\s\w+)+))?/)
+
+        console.log(match)
     }
 
     return (
