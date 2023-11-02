@@ -42,6 +42,11 @@ a {
     text-decoration: none;
 }
 
+h1 {
+    font-size: 2rem;
+    margin: 1rem;
+}
+
 .navBar {
     background-color: var(--secondary-color);
     transition: background-color var(--transition);
@@ -109,7 +114,7 @@ a {
     background-color: var(--secondary-color);
     font: inherit;
     border : 1px solid var(--border-color);
-
+    margin-bottom: 0;
 }
 
 .queryWindow textarea:focus {
@@ -129,5 +134,13 @@ a {
     background-color: var(--hover-color);
 }
 
+.error {
+    color: #4f0000;
+    padding: 0;
+    margin: auto;
+    background-color: #e01332;
+    width: 50%;
+    border-radius: 0 0 5px 5px;
+}
 
 

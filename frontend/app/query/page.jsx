@@ -1,29 +1,27 @@
 import {getServerSession} from "next-auth";
 import {options} from "../api/auth/[...nextauth]/options";
 import {redirect} from "next/navigation";
-import QueryWindow from "../../components/queryWindow";
+import QueryWindow from "./queryWindow";
 
-export default async function QueryPage(){
+export default async function QueryPage() {
     const session = await getServerSession(options)
 
-    if(!session){
+    if (!session) {
         redirect("/api/auth/signin?callbackUrl=/query")
-    }
-
-    async function validateQuery(query) {
-        "use server"
-
-        const text = query.get("queryInput")?.valueOf();
-        const match = text.match(/^SELECT((\s\*)|(?:\s\w+=[^\s]+)(?:\sAND\s\w+=[^\s]+)*)(\sROLLUP ON(\s\w+)((,\s\w+)+))?/)
-
-        console.log(match)
     }
 
     return (
         <>
             <h1>Query</h1>
-            <p>{session?.user.name}</p>
-            <QueryWindow validateQuery={validateQuery}/>
+            <QueryWindow/>
+            <br/>
+            <h2>Example Queries</h2>
+            <ul style={{fontSize:"small"}}>
+                <li>SELECT * ROLLUP ON topic_all, location_all, time_all</li>
+                <li>SELECT time_month=2021-05 AND location_location=LOWS</li>
+                <li>SELECT time_year=2021 AND location_fir=EDMM AND topic_family=FlightRestrictions ROLLUP ON time_all, location_fir</li>
+                <li>SELECT time_day=2021-12-01 AND location_territory=Germany ROLLUP ON location_fir, topic_all</li>
+            </ul>
         </>
     );
 }
