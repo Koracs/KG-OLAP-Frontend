@@ -11,7 +11,9 @@ export const serverAction = async (query) => {
     try {
         const queryString = query.get("queryInput")?.valueOf();
 
-        throw new Error("Query Endpoint not implemented");
+        const result = getTestData();
+        console.log(result);
+        //throw new Error("Query Endpoint not implemented");
 
     } catch (error) {
         console.error(error);
@@ -32,7 +34,8 @@ async function getKGData(queryString) {
     headers.set('Content-Type', 'application/json');
     headers.set('charset', 'utf-8');
     const response = await fetch(surface_url,
-        {method:'POST',
+        {
+            method: 'POST',
             headers: headers,
             body: JSON.stringify({query: "SELECT time_month=2000-01 ROLLUP ON time_all"}),
             cache: 'no-store'
@@ -43,18 +46,14 @@ async function getKGData(queryString) {
 
 function getTestData() {
     const textStream = fs.createReadStream("./testData/1.nq");
+    let result = [];
 
-    /*rdfParser.parse(textStream, { contentType: "application/n-quads", baseIRI: "http://example.org/bigkgolap/" })
-        .on("data", (quad) => console.log(quad))
-        .on("error", (error) => console.error(error))
-        .on("end", () => console.log("All done!"));
-    */
-
-    const parser = new N3.Parser({ format: 'N-Quads', baseIRI: 'http://example.org/bigkgolap/' });
+    const parser = new N3.Parser({format: 'N-Quads', baseIRI: 'http://example.org/bigkgolap/'});
     parser.parse(textStream, (error, quad, prefixes) => {
-        if (quad)
-            console.log(quad);
-        else
-            console.log("# That's all, folks!", prefixes);
+        if (quad) {
+            console.log({quad});
+            result.push(quad);
+        }
     });
+    return result;
 }

@@ -143,4 +143,20 @@ h1 {
     border-radius: 0 0 5px 5px;
 }
 
+table {
+    border-collapse: collapse;
+    width: 70%;
+    margin: auto;
+    border: 1px solid var(--border-color);
+}
+
+tr {
+    border-bottom: 1px solid var(--border-color);
+}
+
+tr:nth-child(even) {
+    background-color: var(--secondary-color);
+}
+
+tr:hover {background-color: var(--hover-color);}
 

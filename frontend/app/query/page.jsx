@@ -2,6 +2,7 @@ import {getServerSession} from "next-auth";
 import {options} from "../api/auth/[...nextauth]/options";
 import {redirect} from "next/navigation";
 import QueryWindow from "./queryWindow";
+import QueryTable from "./queryTable";
 
 export default async function QueryPage() {
     const session = await getServerSession(options)
@@ -14,6 +15,8 @@ export default async function QueryPage() {
         <>
             <h1>Query</h1>
             <QueryWindow/>
+            <br/>
+            <QueryTable/>
             <br/>
             <h2>Example Queries</h2>
             <ul style={{fontSize:"small"}}>
