@@ -9,7 +9,7 @@ export default function NavBar() {
             <ul>
                 <li><Link href="/">Home</Link></li>
                 <li><Link href="/query">Query</Link></li>
-                <li><Link href="/client">Client</Link></li>
+                <li><Link href="/results">Query Results</Link></li>
                 <div style={{float: "right"}}>
                     <ThemeChanger/>
                     <AuthStatus/>

@@ -121,7 +121,7 @@ h1 {
     outline: none;
 }
 
-.queryWindow button {
+.button, .queryWindow button {
     padding: 5px 10px;
     border: none;
     background-color: var(--secondary-color);

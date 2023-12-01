@@ -3,6 +3,9 @@ import {options} from "../api/auth/[...nextauth]/options";
 import {redirect} from "next/navigation";
 import QueryWindow from "./queryWindow";
 import QueryTable from "./queryTable";
+import Table from "../../components/table";
+import fs from "fs";
+import { readFile } from 'fs/promises';
 
 export default async function QueryPage() {
     const session = await getServerSession(options)
@@ -10,13 +13,14 @@ export default async function QueryPage() {
     if (!session) {
         redirect("/api/auth/signin?callbackUrl=/query")
     }
+    const fileData = JSON.parse(await readFile("./testData/1.json", "utf8"));
 
     return (
         <>
             <h1>Query</h1>
             <QueryWindow/>
             <br/>
-            <QueryTable/>
+            <Table data={fileData}/>
             <br/>
             <h2>Example Queries</h2>
             <ul style={{fontSize:"small"}}>

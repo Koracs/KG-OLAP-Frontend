@@ -1,20 +1,20 @@
 "use server";
 
-import {redirect} from "next/navigation";
-import rdfParser from "rdf-parse";
 import * as fs from "fs";
 import N3 from "n3";
-import {prefixes} from "n3/lib/N3Util";
+import * as os from "os";
 
 
 export const serverAction = async (query) => {
     try {
         const queryString = query.get("queryInput")?.valueOf();
 
-        const result = getTestData();
-        console.log(result);
+        const writeSteam = fs.createWriteStream("./testData/1.json");
+        writeSteam.write("["+ os.EOL);
+        getTestData();
+        writeSteam.write("]"); //todo does not work
+        writeSteam.end();
         //throw new Error("Query Endpoint not implemented");
-
     } catch (error) {
         console.error(error);
         return {
@@ -25,9 +25,9 @@ export const serverAction = async (query) => {
 }
 
 async function getKGData(queryString) {
-    const surface_url = "http://140.78.58.65:8080/cube";
-    const username = "bigkgolap";
-    const password = "b1gkg0lap4ss#2022";
+    const surface_url = process.env.KGOLAP_SURFACE_URL;
+    const username = process.env.KGOLAP_USERNAME;
+    const password = process.env.KGOLAP_PASSWORD;
 
     const headers = new Headers();
     headers.set('Authorization', 'Basic ' + Buffer.from(username + ":" + password).toString('base64'));
@@ -46,14 +46,20 @@ async function getKGData(queryString) {
 
 function getTestData() {
     const textStream = fs.createReadStream("./testData/1.nq");
-    let result = [];
+    const writeSteam = fs.createWriteStream("./testData/1.json");
+    writeSteam.write("[");
 
     const parser = new N3.Parser({format: 'N-Quads', baseIRI: 'http://example.org/bigkgolap/'});
     parser.parse(textStream, (error, quad, prefixes) => {
         if (quad) {
-            console.log({quad});
-            result.push(quad);
+            const quadData = {
+                subject: quad.subject.value,
+                predicate: quad.predicate.value,
+                object: quad.object.value,
+                context: quad.graph.value
+            }
+            console.log(quadData)
+            writeSteam.write(JSON.stringify(quadData) + "," + os.EOL);
         }
     });
-    return result;
 }

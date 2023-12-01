@@ -5,7 +5,7 @@ import {redirect} from "next/navigation";
 
 export default async function AuthStatus() {
     const session = await getServerSession(options);
-    console.log(session);
+    //console.log(session);
 
     return (
         <>
