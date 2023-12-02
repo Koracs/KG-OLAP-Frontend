@@ -1,31 +1,35 @@
 import Link from "next/link";
-import fs from "fs";
+import {deleteDBEntry, deleteFile, updateDBEntry, updateFile} from "./resultaction";
+import {revalidatePath} from "next/cache";
 
 export default function ResultItem({uuid, queryText, lastUpdate}) {
     const fileName = uuid + ".json";
-    const directoryPath = "./testData/";
 
-    async function resultAction(data) {
+    async function deleteAction(data) {
         "use server"
-        if (data.get("delete_button") === "delete") {
-            //delete file with filename from props
-            fs.unlink(directoryPath + fileName, (err) => {
-                if (err) throw err;
-                console.log("Delete File " & fileName & " successfully.");
-            });
-        }
+        await deleteDBEntry(uuid);
+        await deleteFile(fileName);
 
-        //todo implement rerun query
+        revalidatePath("/results")
+    }
+
+    async function rerunAction(data) {
+        "use server"
+        //todo implement re-run query
+        await updateDBEntry(uuid, queryText);
+        await updateFile(fileName);
+
+        revalidatePath("/results")
     }
 
     return (
-        <form action={resultAction} className={"resultitem-container"}>
+        <form className={"resultitem-container"}>
             <h3 className={"resultitem-fileName"}>{fileName}</h3>
             <span className={"resultitem-queryText"}>Query Text: {queryText}</span>
             <span className={"resultitem-lastUpdate"}>Last Update: {lastUpdate.toLocaleString()}</span>
             <Link className={"button resultitem-results"} href={`/results/${fileName}`}>Show result</Link>
-            <button type="submit" name="update_button" value="update" className={"button resultitem-rerun"}>Re-Run Query</button>
-            <button type="submit" name="delete_button" value="delete" className={"button resultitem-delete"}>Delete</button>
+            <button formAction={rerunAction} className={"button resultitem-rerun"}>Re-Run Query</button>
+            <button formAction={deleteAction} className={"button resultitem-delete"}>Delete</button>
         </form>
     )
 }

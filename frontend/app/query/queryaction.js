@@ -4,13 +4,15 @@ import * as fs from "fs";
 import N3 from "n3";
 import * as os from "os";
 import prisma from '../db'
+import {revalidatePath} from "next/cache";
 
 
 export const serverAction = async (query) => {
     try {
         const queryString = query.get("queryInput")?.valueOf();
 
-        const uuid = createDatabaseEntry(queryString);
+        const uuid = await createDatabaseEntry(queryString);
+        console.log(uuid);
         //getTestData();
         //createResultFile(queryString);
 
@@ -22,11 +24,12 @@ export const serverAction = async (query) => {
         }
     }
     //redirect("/query/result")
+    revalidatePath("/results")
 }
 
 function createDatabaseEntry(queryString) {
     //create entry in database with query string
-    prisma.queryResult.create({
+    return prisma.queryResult.create({
         data: {
             queryText: queryString
         }
