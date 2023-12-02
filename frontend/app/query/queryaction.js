@@ -3,17 +3,17 @@
 import * as fs from "fs";
 import N3 from "n3";
 import * as os from "os";
+import prisma from '../db'
 
 
 export const serverAction = async (query) => {
     try {
         const queryString = query.get("queryInput")?.valueOf();
 
-        const writeSteam = fs.createWriteStream("./testData/1.json");
-        writeSteam.write("["+ os.EOL);
-        getTestData();
-        writeSteam.write("]"); //todo does not work
-        writeSteam.end();
+        const uuid = createDatabaseEntry(queryString);
+        //getTestData();
+        //createResultFile(queryString);
+
         //throw new Error("Query Endpoint not implemented");
     } catch (error) {
         console.error(error);
@@ -23,6 +23,20 @@ export const serverAction = async (query) => {
     }
     //redirect("/query/result")
 }
+
+function createDatabaseEntry(queryString) {
+    //create entry in database with query string
+    prisma.queryResult.create({
+        data: {
+            queryText: queryString
+        }
+    }).then((result) => {
+        return result.id;
+    }).catch((error) => {
+        console.warn(error);
+    });
+}
+
 
 async function getKGData(queryString) {
     const surface_url = process.env.KGOLAP_SURFACE_URL;
@@ -62,4 +76,6 @@ function getTestData() {
             writeSteam.write(JSON.stringify(quadData) + "," + os.EOL);
         }
     });
+
+    //writeSteam.write("]"); //todo does not work
 }

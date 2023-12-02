@@ -1,5 +1,6 @@
 :root {
     --transition: 150ms ease-in-out;
+    --error-color: #e01332;
 }
 
 [data-theme='light'] {
@@ -138,7 +139,7 @@ h1 {
     color: #4f0000;
     padding: 0;
     margin: auto;
-    background-color: #e01332;
+    background-color: var(--error-color);
     width: 50%;
     border-radius: 0 0 5px 5px;
 }
@@ -159,4 +160,52 @@ tr:nth-child(even) {
 }
 
 tr:hover {background-color: var(--hover-color);}
+
+.resultitem-container {
+    width: 70%;
+    margin: auto;
+    padding: 1rem 0 1rem 0;
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas:
+        "fileName results"
+        "queryText rerun"
+        "lastUpdate delete";
+}
+
+.resultitem-fileName {
+    padding: 10px 10px 10px 0;
+    text-align: left;
+    grid-area: fileName;
+}
+
+.resultitem-queryText {
+    padding: 10px 10px 10px 0;
+    text-align: left;
+    grid-area: queryText;
+}
+
+.resultitem-lastUpdate {
+    padding: 10px 10px 10px 0;
+    text-align: left;
+    grid-area: lastUpdate;
+}
+
+.resultitem-results {
+    margin: 5px;
+    grid-area: results;
+}
+
+.resultitem-rerun {
+    margin: 5px;
+    grid-area: rerun;
+}
+
+.resultitem-delete {
+    margin: 5px;
+    background-color: var(--error-color);
+    grid-area: delete;
+}
+
 
