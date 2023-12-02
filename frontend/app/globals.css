@@ -1,6 +1,7 @@
 :root {
     --transition: 150ms ease-in-out;
     --error-color: #e01332;
+    --error-secondary-color: #a60d27;
 }
 
 [data-theme='light'] {
@@ -131,11 +132,21 @@ h1 {
 
 }
 
-.queryWindow button:hover {
+button:hover, .button:hover {
     background-color: var(--hover-color);
 }
 
-.error {
+.error-button {
+    background-color: var(--error-color);
+}
+
+.error-button:hover {
+    background-color: var(--error-secondary-color);
+}
+
+
+
+.errorMessage {
     color: #4f0000;
     padding: 0;
     margin: auto;
@@ -204,7 +215,6 @@ tr:hover {background-color: var(--hover-color);}
 
 .resultitem-delete {
     margin: 5px;
-    background-color: var(--error-color);
     grid-area: delete;
 }
 

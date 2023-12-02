@@ -29,7 +29,7 @@ export default function QueryWindow() {
         <div>
             <form action={clientAction} className={"queryWindow"}>
                 <textarea name="queryInput" placeholder={"Enter Query"} rows={5}/>
-                {error && (<div className={"error"}>{error}</div>)}
+                {error && (<div className={"errorMessage"}>{error}</div>)}
                 <p/>
                 <button type="submit">submit</button>
             </form>

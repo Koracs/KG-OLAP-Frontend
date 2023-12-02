@@ -29,7 +29,7 @@ export default function ResultItem({uuid, queryText, lastUpdate}) {
             <span className={"resultitem-lastUpdate"}>Last Update: {lastUpdate.toLocaleString()}</span>
             <Link className={"button resultitem-results"} href={`/results/${fileName}`}>Show result</Link>
             <button formAction={rerunAction} className={"button resultitem-rerun"}>Re-Run Query</button>
-            <button formAction={deleteAction} className={"button resultitem-delete"}>Delete</button>
+            <button formAction={deleteAction} className={"button error-button resultitem-delete"}>Delete</button>
         </form>
     )
 }

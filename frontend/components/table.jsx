@@ -9,13 +9,13 @@ import {
 
 const columns = [
     {
-        header: 'subject', accessorKey: 'subject'
+        header: 'Subject', accessorKey: 'subject'
     }, {
-        header: 'predicate', accessorKey: 'predicate'
+        header: 'Predicate', accessorKey: 'predicate'
     }, {
-        header: 'object', accessorKey: 'object'
+        header: 'Object', accessorKey: 'object'
     }, {
-        header: 'context', accessorKey: 'context'
+        header: 'Context', accessorKey: 'context'
     }]
 
 export default function Table({data}) {
@@ -51,14 +51,14 @@ export default function Table({data}) {
                 </tbody>
             </table>
             <div>
-                <button onClick={() => table.setPageIndex(0)}>First page</button>
-                <button disabled={!table.getCanPreviousPage()} onClick={() => table.previousPage()}>
+                <button className={"button"} onClick={() => table.setPageIndex(0)}>First page</button>
+                <button className={"button"} disabled={!table.getCanPreviousPage()} onClick={() => table.previousPage()}>
                     Previous page
                 </button>
-                <button disabled={!table.getCanNextPage()} onClick={() => table.nextPage()}>
+                <button className={"button"} disabled={!table.getCanNextPage()} onClick={() => table.nextPage()}>
                     Next page
                 </button>
-                <button onClick={() => table.setPageIndex(table.getPageCount() - 1)}>
+                <button className={"button"} onClick={() => table.setPageIndex(table.getPageCount() - 1)}>
                     Last page
                 </button>
             </div>

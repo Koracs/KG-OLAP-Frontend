@@ -20,8 +20,6 @@ export default async function QueryPage() {
             <h1>Query</h1>
             <QueryWindow/>
             <br/>
-            <Table data={fileData}/>
-            <br/>
             <h2>Example Queries</h2>
             <ul style={{fontSize:"small"}}>
                 <li>SELECT * ROLLUP ON topic_all, location_all, time_all</li>

@@ -12,8 +12,8 @@ export const serverAction = async (query) => {
         const queryString = query.get("queryInput")?.valueOf();
 
         const uuid = await createDatabaseEntry(queryString);
-        console.log(uuid);
-        //getTestData();
+        createFile(uuid);
+        getTestData(uuid);
         //createResultFile(queryString);
 
         //throw new Error("Query Endpoint not implemented");
@@ -40,6 +40,16 @@ function createDatabaseEntry(queryString) {
     });
 }
 
+function createFile(uuid) {
+    //create file with uuid as name
+    const directoryPath = "./testData/";
+    const fileName = uuid + ".json";
+
+    fs.writeFile(directoryPath + fileName, "", (err) => {
+        if (err) throw err;
+        console.log("Create File " + fileName + " successfully.");
+    });
+}
 
 async function getKGData(queryString) {
     const surface_url = process.env.KGOLAP_SURFACE_URL;
@@ -61,9 +71,9 @@ async function getKGData(queryString) {
     console.log(data);*/
 }
 
-function getTestData() {
+function getTestData(uuid) {
     const textStream = fs.createReadStream("./testData/1.nq");
-    const writeSteam = fs.createWriteStream("./testData/1.json");
+    const writeSteam = fs.createWriteStream("./testData/"+ uuid +".json");
     writeSteam.write("[");
 
     const parser = new N3.Parser({format: 'N-Quads', baseIRI: 'http://example.org/bigkgolap/'});
@@ -75,7 +85,6 @@ function getTestData() {
                 object: quad.object.value,
                 context: quad.graph.value
             }
-            console.log(quadData)
             writeSteam.write(JSON.stringify(quadData) + "," + os.EOL);
         }
     });
