@@ -11,19 +11,20 @@ import * as util from "util";
 export const serverAction = async (query) => {
     try {
         const queryString = query.get("queryInput")?.valueOf();
-
         const uuid = await createDatabaseEntry(queryString);
 
-        getTestData(uuid);
+        if(query.get("testMode")?.valueOf() === "testMode") {
+            getTestData(uuid);
+        } else {
+            await getKGData(uuid, queryString);
+        }
 
-        //throw new Error("Query Endpoint not implemented");
     } catch (error) {
         console.error(error);
         return {
             error: error.message,
         }
     }
-    //redirect("/query/result")
     revalidatePath("/results")
 }
 
@@ -40,7 +41,7 @@ function createDatabaseEntry(queryString) {
     });
 }
 
-async function getKGData(queryString) {
+async function getKGData(uuid, queryString) {
     const surface_url = process.env.KGOLAP_SURFACE_URL;
     const username = process.env.KGOLAP_USERNAME;
     const password = process.env.KGOLAP_PASSWORD;
@@ -53,26 +54,36 @@ async function getKGData(queryString) {
         {
             method: 'POST',
             headers: headers,
-            body: JSON.stringify({query: "SELECT time_month=2000-01 ROLLUP ON time_all"}),
+            body: JSON.stringify({query: queryString}),
             cache: 'no-store'
         });
-    /*const data = await response.text();
-    console.log(data);*/
+    if (response.ok) {
+        const outputStream = fs.createWriteStream("./testData/"+ uuid +".json");
+        parseData(uuid,response.body,outputStream);
+    }
 }
 
 function getTestData(uuid) {
-    const textStream = fs.createReadStream("./testData/1.nq");
-    const writeSteam = fs.createWriteStream("./testData/"+ uuid +".json");
+    const inputStream = fs.createReadStream("./testData/1.nq");
+    const outputStream = fs.createWriteStream("./testData/"+ uuid +".json");
+    parseData(uuid,inputStream,outputStream);
+}
+
+function parseData(uuid,inputStream,outputStream) {
+    const parser = new N3.Parser({format: 'N-Quads'});
     let first = true;
     let separator = "";
+
+    parser.parse(inputStream, quadCallback);
+
     function quadCallback(error, quad, prefixes) {
         if(quad === null) {
-            writeSteam.write("]");
-            writeSteam.end();
+            outputStream.write("]");
+            outputStream.end();
             return;
         }
         if (first) {
-            writeSteam.write("[");
+            outputStream.write("[");
             first = false;
         }
         if (quad) {
@@ -82,27 +93,11 @@ function getTestData(uuid) {
                 object: quad.object.value,
                 context: quad.graph.value
             }
-            writeSteam.write(separator + JSON.stringify(quadData));
+            outputStream.write(separator + JSON.stringify(quadData));
             if(!separator) {
                 separator = "," + os.EOL;
             }
         }
     }
 
-    const parser = new N3.Parser({format: 'N-Quads', baseIRI: 'http://example.org/bigkgolap/'});
-    parser.parse(textStream, quadCallback);
-}
-
-function parserPromise() {
-    const textStream = fs.createReadStream("./testData/1.nq");
-    return new Promise((resolve, reject) => {
-        const parser = new N3.Parser({format: 'N-Quads', baseIRI: 'http://example.org/bigkgolap/'});
-        parser.parse(textStream, (error, quad, prefixes) => {
-            if (quad) {
-                resolve(quad);
-            } else {
-                reject(error);
-            }
-        });
-    });
 }

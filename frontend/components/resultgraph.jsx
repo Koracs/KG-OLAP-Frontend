@@ -4,15 +4,9 @@ import {redirect} from "next/navigation";
 import {useSession} from "next-auth/react";
 import ForceGraph from 'react-force-graph-2d';
 
-export default function QueryPage() {
-    const { data: session, status } = useSession({
-        required: true,
-        onUnauthenticated() {
-            redirect("/api/auth/signin?callbackUrl=/query")
-        }
-    });
+export default function ResultGraph({triples}) {
 
-    const triples = [
+    /*const triples = [
         {subject: "aircraft:44088b", predicate: "rdf:type", object: "voc:Aircraft"},
         {subject: "aircraft:44088b", predicate: "voc:icao24", object: "440389"},
         {subject: "aircraft:44088b", predicate: "voc:hasModel", object: "model:EuroFox"},
@@ -33,7 +27,7 @@ export default function QueryPage() {
         {subject: "model:Synthesis25", predicate: "rdf:type", object: "voc:Model"},
         {subject: "model:Synthesis25", predicate: "voc:model", object: "Synthesis 25"},
         {subject: "model:Synthesis25", predicate: "voc:typecode", object: "PARA"},
-    ];
+    ];*/
 
     const graphData = triplesToGraph(triples);
 
@@ -75,7 +69,6 @@ export default function QueryPage() {
 
     return (
         <>
-            <h1>Query Result</h1>
             <ForceGraph
                 graphData={graphData}
                 nodeLabel="id"

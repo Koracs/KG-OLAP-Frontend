@@ -9,7 +9,7 @@ export default function QueryWindow() {
     async function clientAction(query) {
         //client side validation
         const text = query.get("queryInput")?.valueOf();
-        const match = text.match(/^SELECT((\s\*)|(?:\s\w+=[^\s]+)(?:\sAND\s\w+=[^\s]+)*)(\sROLLUP ON(\s\w+)((,\s\w+)+))?$/)
+        const match = text.match(/^SELECT((\s\*)|(?:\s\w+=[^\s]+)(?:\sAND\s\w+=[^\s]+)*)(\sROLLUP ON(\s\w+)((,\s\w+)*))?$/)
         if(match == null) {
             setError("Invalid query string");
             return;
@@ -30,6 +30,9 @@ export default function QueryWindow() {
             <form action={clientAction} className={"queryWindow"}>
                 <textarea name="queryInput" placeholder={"Enter Query"} rows={5}/>
                 {error && (<div className={"errorMessage"}>{error}</div>)}
+                <p/>
+                <label htmlFor="testMode">Test Mode</label>
+                <input type="checkbox" name="testMode" value="testMode" defaultChecked/>
                 <p/>
                 <button type="submit">submit</button>
             </form>
