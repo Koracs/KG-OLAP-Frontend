@@ -1,10 +1,10 @@
-import fs from 'fs';
 import path from 'path';
 import ResultItem from "./resultItem";
+import prisma from "../db";
 
 const dirPath = path.join("./testData/");
 export default async function ResultFiles() {
-    const results = await prisma.QueryResult.findMany({orderBy: {id: "asc"}})
+    const results = await prisma.QueryResult.findMany({orderBy: {updatedAt: "asc"}})
 
     return (
         <>

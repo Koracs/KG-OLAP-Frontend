@@ -5,6 +5,7 @@ import N3 from "n3";
 import * as os from "os";
 import prisma from '../db'
 import {revalidatePath} from "next/cache";
+import * as util from "util";
 
 
 export const serverAction = async (query) => {
@@ -12,9 +13,8 @@ export const serverAction = async (query) => {
         const queryString = query.get("queryInput")?.valueOf();
 
         const uuid = await createDatabaseEntry(queryString);
-        createFile(uuid);
+
         getTestData(uuid);
-        //createResultFile(queryString);
 
         //throw new Error("Query Endpoint not implemented");
     } catch (error) {
@@ -37,17 +37,6 @@ function createDatabaseEntry(queryString) {
         return result.id;
     }).catch((error) => {
         console.warn(error);
-    });
-}
-
-function createFile(uuid) {
-    //create file with uuid as name
-    const directoryPath = "./testData/";
-    const fileName = uuid + ".json";
-
-    fs.writeFile(directoryPath + fileName, "", (err) => {
-        if (err) throw err;
-        console.log("Create File " + fileName + " successfully.");
     });
 }
 
@@ -74,10 +63,18 @@ async function getKGData(queryString) {
 function getTestData(uuid) {
     const textStream = fs.createReadStream("./testData/1.nq");
     const writeSteam = fs.createWriteStream("./testData/"+ uuid +".json");
-    writeSteam.write("[");
-
-    const parser = new N3.Parser({format: 'N-Quads', baseIRI: 'http://example.org/bigkgolap/'});
-    parser.parse(textStream, (error, quad, prefixes) => {
+    let first = true;
+    let separator = "";
+    function quadCallback(error, quad, prefixes) {
+        if(quad === null) {
+            writeSteam.write("]");
+            writeSteam.end();
+            return;
+        }
+        if (first) {
+            writeSteam.write("[");
+            first = false;
+        }
         if (quad) {
             const quadData = {
                 subject: quad.subject.value,
@@ -85,9 +82,27 @@ function getTestData(uuid) {
                 object: quad.object.value,
                 context: quad.graph.value
             }
-            writeSteam.write(JSON.stringify(quadData) + "," + os.EOL);
+            writeSteam.write(separator + JSON.stringify(quadData));
+            if(!separator) {
+                separator = "," + os.EOL;
+            }
         }
-    });
+    }
 
-    //writeSteam.write("]"); //todo does not work
+    const parser = new N3.Parser({format: 'N-Quads', baseIRI: 'http://example.org/bigkgolap/'});
+    parser.parse(textStream, quadCallback);
+}
+
+function parserPromise() {
+    const textStream = fs.createReadStream("./testData/1.nq");
+    return new Promise((resolve, reject) => {
+        const parser = new N3.Parser({format: 'N-Quads', baseIRI: 'http://example.org/bigkgolap/'});
+        parser.parse(textStream, (error, quad, prefixes) => {
+            if (quad) {
+                resolve(quad);
+            } else {
+                reject(error);
+            }
+        });
+    });
 }

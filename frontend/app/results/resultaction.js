@@ -34,10 +34,14 @@ export async function updateDBEntry(uuid, queryText) {
 
 export async function deleteFile(fileName) {
     const directoryPath = "./testData/";
-    fs.unlink(directoryPath + fileName, (err) => {
-        if (err) throw err;
-        console.log("Delete File " & fileName & " successfully.");
-    });
+    if(fs.existsSync(directoryPath + fileName)) {
+        fs.unlink(directoryPath + fileName, (err) => {
+            if (err) throw err;
+            console.log("Delete File " & fileName & " successfully.");
+        });
+    } else {
+        console.warn("File " & fileName & " does not exist.");
+    }
 }
 
 export async function updateFile(fileName) {
