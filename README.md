@@ -12,7 +12,7 @@
 
 ## Example .env
 ```
-    DATABASE_URL="postgresql://prisma:password@localhost:5432/kgolap?schema=public"
+DATABASE_URL="postgresql://prisma:password@localhost:5432/kgolap?schema=public"
 ```
 
 ## Example .env.local
