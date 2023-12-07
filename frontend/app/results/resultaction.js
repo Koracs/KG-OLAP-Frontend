@@ -1,5 +1,4 @@
-
-
+"use server"
 import fs from "fs";
 
 
@@ -10,7 +9,7 @@ export async function deleteDBEntry(uuid) {
             id: uuid
         }
     }).then((result) => {
-        console.log("Delete DB Entry " & uuid & " successfully.");
+        console.log("Delete DB Entry " + uuid + " successfully.");
     }).catch((error) => {
         console.warn(error);
     });
@@ -26,7 +25,7 @@ export async function updateDBEntry(uuid, queryText) {
             queryText: queryText
         }
     }).then((result) => {
-        console.log("Update DB Entry " & uuid & " successfully.");
+        console.log("Update DB Entry " + uuid + " successfully.");
     }).catch((error) => {
         console.warn(error);
     });
@@ -37,10 +36,10 @@ export async function deleteFile(fileName) {
     if(fs.existsSync(directoryPath + fileName)) {
         fs.unlink(directoryPath + fileName, (err) => {
             if (err) throw err;
-            console.log("Delete File " & fileName & " successfully.");
+            console.log("Delete File " + fileName + " successfully.");
         });
     } else {
-        console.warn("File " & fileName & " does not exist.");
+        console.warn("File " + fileName + " does not exist.");
     }
 }
 
