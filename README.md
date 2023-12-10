@@ -5,8 +5,15 @@
  1. Run npm install
  2. Run Docker Compose
  3. Setup Keycloak via Realm Export
- 4. Change Client Secret of NextJS-Frontend
- 5. Fill .env.local (example below)
+ 4. add "prisma" user to postgres database (can create databases)
+ 5. Fill .env (example below)
+ 6. Fill .env.local (example below)
+ 7. run npx prisma db push
+
+## Example .env
+```
+DATABASE_URL="postgresql://prisma:password@localhost:5432/kgolap?schema=public"
+```
 
 ## Example .env.local
 

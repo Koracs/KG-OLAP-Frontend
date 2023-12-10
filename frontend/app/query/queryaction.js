@@ -57,10 +57,14 @@ async function getKGData(uuid, queryString) {
             body: JSON.stringify({query: queryString}),
             cache: 'no-store'
         });
+
     if (response.ok) {
         const outputStream = fs.createWriteStream("./testData/"+ uuid +".json");
-        parseData(uuid,response.body,outputStream);
+        parseData(uuid,await response.text(),outputStream);
+    } else {
+        throw new Error("Error while fetching data from KGOLAP: " + response.status);
     }
+
 }
 
 function getTestData(uuid) {
