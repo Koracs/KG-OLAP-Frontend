@@ -223,6 +223,7 @@ tr:hover {background-color: var(--hover-color);}
     width: 50%;
     background-color: var(--secondary-color);
     color: var(--text-color);
+    border: var(--border-color) 1px solid;
 }
 
 

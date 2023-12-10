@@ -32,17 +32,17 @@ export default function QueryWindow() {
 
     return (
         <div>
-            <form action={clientAction}>
-                <CodeEditor
-                    value={queryString}
-                    language="sql"
-                    placeholder="Enter query"
-                    onChange={(evn) => setQueryString(evn.target.value)}
-                    padding={15}
-                    className={"codeEditor"}
-                />
-                {error && (<div className={"errorMessage"}>{error}</div>)}
-                <p/>
+            <CodeEditor
+                value={queryString}
+                language="sql"
+                placeholder="Enter query"
+                onChange={(evn) => setQueryString(evn.target.value)}
+                padding={15}
+                minHeight={100}
+                className={"codeEditor"}
+            />
+            {error && (<div className={"errorMessage"}>{error}</div>)}
+            <form action={clientAction} className={"queryWindow"}>
                 <label htmlFor="testMode">Test Mode</label>
                 <input type="checkbox" name="testMode" value="testMode" defaultChecked/>
                 <p/>
