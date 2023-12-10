@@ -2,13 +2,18 @@
 
 import {useState} from "react";
 import {serverAction} from "./queryaction";
+import CodeEditor from "@uiw/react-textarea-code-editor";
+import styles from "../globals.css"
+
 
 export default function QueryWindow() {
     const [error, setError] = useState("");
+    const [queryString, setQueryString] = useState("");
+
 
     async function clientAction(query) {
         //client side validation
-        const text = query.get("queryInput")?.valueOf();
+        const text = queryString.trim();
         const match = text.match(/^SELECT((\s\*)|(?:\s\w+=[^\s]+)(?:\sAND\s\w+=[^\s]+)*)(\sROLLUP ON(\s\w+)((,\s\w+)*))?$/)
         if(match == null) {
             setError("Invalid query string");
@@ -27,14 +32,21 @@ export default function QueryWindow() {
 
     return (
         <div>
-            <form action={clientAction} className={"queryWindow"}>
-                <textarea name="queryInput" placeholder={"Enter Query"} rows={5}/>
+            <form action={clientAction}>
+                <CodeEditor
+                    value={queryString}
+                    language="sql"
+                    placeholder="Enter query"
+                    onChange={(evn) => setQueryString(evn.target.value)}
+                    padding={15}
+                    className={"codeEditor"}
+                />
                 {error && (<div className={"errorMessage"}>{error}</div>)}
                 <p/>
                 <label htmlFor="testMode">Test Mode</label>
                 <input type="checkbox" name="testMode" value="testMode" defaultChecked/>
                 <p/>
-                <button type="submit">submit</button>
+                <button type="submit" className={"button"}>submit</button>
             </form>
         </div>
     );

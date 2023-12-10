@@ -71,7 +71,7 @@ h1 {
     border-right: none;
 }
 
-.navBar li a, span {
+.navBar li a, .navBar span {
     display: block;
     text-align: center;
     padding: 14px 16px;
@@ -216,6 +216,13 @@ tr:hover {background-color: var(--hover-color);}
 .resultitem-delete {
     margin: 5px;
     grid-area: delete;
+}
+
+.codeEditor {
+    margin: auto;
+    width: 50%;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
 }
 
 
