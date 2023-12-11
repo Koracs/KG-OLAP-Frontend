@@ -3,8 +3,19 @@ name: kgolapfrontend
 volumes:
   data:
       driver: local
+  cache:
+    driver: local
 
 services:
+  cache:
+    image: redis
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass redisPa55w0rd
+    volumes: 
+      - cache:/data
+
   postgres:
       container_name: kgolap-postgres
       image: postgres
@@ -16,6 +27,7 @@ services:
         POSTGRES_PASSWORD: password
       ports:
         - 5432:5432
+
   postgres-pgadmin4:
     container_name: kgolap-pgadmin4
     image: dpage/pgadmin4
@@ -26,6 +38,7 @@ services:
       - 5050:80
     depends_on:
       - postgres
+
   keycloak:
       container_name: kgolap-keycloak
       image: quay.io/keycloak/keycloak:legacy
