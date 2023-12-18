@@ -1,8 +1,8 @@
 import path from 'path';
 import ResultItem from "./resultItem";
 import prisma from "../db";
+import redisClient from "../redis";
 
-const dirPath = path.join("./testData/");
 export default async function ResultFiles() {
     const results = await prisma.QueryResult.findMany({orderBy: {updatedAt: "asc"}})
 

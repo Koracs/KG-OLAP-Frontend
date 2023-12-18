@@ -1,19 +1,16 @@
 "use server";
-
 import * as fs from "fs";
 import N3 from "n3";
 import * as os from "os";
 import prisma from '../db'
 import {revalidatePath} from "next/cache";
-import * as util from "util";
 
 
-export const serverAction = async (query) => {
+export const serverAction = async (queryString, queryMode) => {
     try {
-        const queryString = query.get("queryInput")?.valueOf();
         const uuid = await createDatabaseEntry(queryString);
 
-        if(query.get("testMode")?.valueOf() === "testMode") {
+        if(queryMode === "testMode") {
             getTestData(uuid);
         } else {
             await getKGData(uuid, queryString);

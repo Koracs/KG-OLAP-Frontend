@@ -1,5 +1,6 @@
 "use server"
 import fs from "fs";
+import prisma from '../db'
 
 
 export async function deleteDBEntry(uuid) {

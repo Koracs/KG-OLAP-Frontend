@@ -3,7 +3,6 @@
 import {useState} from "react";
 import {serverAction} from "./queryaction";
 import CodeEditor from "@uiw/react-textarea-code-editor";
-import styles from "../globals.css"
 
 
 export default function QueryWindow() {
@@ -11,17 +10,18 @@ export default function QueryWindow() {
     const [queryString, setQueryString] = useState("");
 
 
-    async function clientAction(query) {
+    async function clientAction(formData) {
         //client side validation
-        const text = queryString.trim();
-        const match = text.match(/^SELECT((\s\*)|(?:\s\w+=[^\s]+)(?:\sAND\s\w+=[^\s]+)*)(\sROLLUP ON(\s\w+)((,\s\w+)*))?$/)
+        const query = queryString.trim();
+        const match = query.match(/^SELECT((\s\*)|(?:\s\w+=[^\s]+)(?:\sAND\s\w+=[^\s]+)*)(\sROLLUP ON(\s\w+)((,\s\w+)*))?$/)
         if(match == null) {
             setError("Invalid query string");
             return;
         }
 
         //server side validation
-        const result = await serverAction(query);
+        const mode = formData.get("testMode")?.valueOf();
+        const result = await serverAction(query, mode);
 
         if(result?.error){
             setError(result.error);

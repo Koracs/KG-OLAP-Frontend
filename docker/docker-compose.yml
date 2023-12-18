@@ -8,6 +8,7 @@ volumes:
 
 services:
   cache:
+    container_name: kgolap-redis
     image: redis
     restart: always
     ports:
@@ -15,6 +16,8 @@ services:
     command: redis-server --save 20 1 --loglevel warning --requirepass redisPa55w0rd
     volumes: 
       - cache:/data
+    depends_on:
+      - postgres
 
   postgres:
       container_name: kgolap-postgres
