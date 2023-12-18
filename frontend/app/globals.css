@@ -227,9 +227,9 @@ tr:hover {background-color: var(--hover-color);}
     transition: color, background-color, border var(--transition);
 }
 
-svg1 {
+/*svg {
     background-color: green;
     overflow: visible;
-}
+}*/
 
 

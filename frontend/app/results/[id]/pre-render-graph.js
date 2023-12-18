@@ -1,6 +1,5 @@
 "use server"
 import * as d3 from "d3";
-import jsdom from "jsdom";
 import fs from "fs";
 
 export default async function preRenderGraph(triples) {
@@ -98,7 +97,11 @@ export default async function preRenderGraph(triples) {
         .join("circle")
         .attr("cx", (d) => d.x)
         .attr("cy", (d) => d.y)
-        .attr("r", 4);
+        .attr("r", 4)
+        .attr("onmouseover", "this.style.strokeWidth='2px'")
+        .attr("onmouseout", "this.style.strokeWidth='1px'")
+        .append('svg:title')
+        .text((d) => d.label)
 
 
     //fs.writeFileSync("test3.svg", body.node().innerHTML)
