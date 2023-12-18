@@ -1,14 +1,12 @@
 "use client"
-
 import {useState} from "react";
 import {serverAction} from "./queryaction";
 import CodeEditor from "@uiw/react-textarea-code-editor";
-
+import styles from "../globals.css" //used for theme change of code editor
 
 export default function QueryWindow() {
     const [error, setError] = useState("");
     const [queryString, setQueryString] = useState("");
-
 
     async function clientAction(formData) {
         //client side validation
@@ -36,10 +34,14 @@ export default function QueryWindow() {
                 value={queryString}
                 language="sql"
                 placeholder="Enter query"
-                onChange={(evn) => setQueryString(evn.target.value)}
+                onChange={(evn) => {
+                    setQueryString(evn.target.value);
+                    setError("");
+                }}
                 padding={15}
                 minHeight={100}
                 className={"codeEditor"}
+                autoCapitalize={"none"}
             />
             {error && (<div className={"errorMessage"}>{error}</div>)}
             <form action={clientAction} className={"queryWindow"}>
