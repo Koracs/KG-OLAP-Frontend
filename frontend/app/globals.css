@@ -224,6 +224,7 @@ tr:hover {background-color: var(--hover-color);}
     background-color: var(--secondary-color);
     color: var(--text-color);
     border: var(--border-color) 1px solid;
+    transition: color, background-color, border var(--transition);
 }
 
 svg1 {
