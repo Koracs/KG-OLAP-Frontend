@@ -226,4 +226,9 @@ tr:hover {background-color: var(--hover-color);}
     border: var(--border-color) 1px solid;
 }
 
+svg1 {
+    background-color: green;
+    overflow: visible;
+}
+
 

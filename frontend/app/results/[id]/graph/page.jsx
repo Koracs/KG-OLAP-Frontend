@@ -7,6 +7,7 @@ import preRenderGraph from "../pre-render-graph";
 export default async function ResultGraphPage({params}) {
     const fileData = JSON.parse(await readFile(`./testData/${params?.id}`, "utf8"));
     const svg = await preRenderGraph(fileData);
+
     return (
         <>
             <h1>Query Result Graph</h1>

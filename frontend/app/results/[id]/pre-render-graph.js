@@ -42,68 +42,68 @@ export default async function preRenderGraph(triples) {
         return graph;
     }
 
-
-    const {JSDOM} = jsdom;
-
-    const {document} = (new JSDOM('')).window;
-    global.document = document;
-
-    var body = d3.select(document).select("body");
-
     const nodes = graphData.nodes;
     const links = graphData.links;
+
     const width = 640;
     const height = 500;
-    const svg = body.append("svg")
+
+    // Create a simulation for the given graph
+    const simulation = d3.forceSimulation(nodes)
+        .force("link", d3.forceLink(links).id((d) => d.id))
+        .force("charge", d3.forceManyBody().strength(-5))
+        .force("center", d3.forceCenter(width / 2, height / 2))
+        .force("x", d3.forceX(width / 2))
+        .force("y", d3.forceY(height / 2))
+
+    // Create an SVG element
+    const svg = d3.create("svg")
         .attr("width", width)
         .attr("height", height)
         .attr("viewBox", [0, 0, width, height])
-        .attr("style", "max-width: 100%; height: auto;");
 
+    //add coordinate system
+    // svg.append("path")
+    //     .attr("stroke", "#000")
+    //     .attr("stroke-width", 1)
+    //     .attr("d", "M 0,0 L640,0")
+    // svg.append("path")
+    //     .attr("stroke", "#000")
+    //     .attr("stroke-width", 1)
+    //     .attr("d", "M 0,0 L0,500")
 
-
-    const simulation = d3.forceSimulation(nodes)
-        .force("charge", d3.forceManyBody().strength(-80))
-        .force("link", d3.forceLink(links).distance(20).strength(1).iterations(10))
-        .force("x", d3.forceX())
-        .force("y", d3.forceY())
-        .stop();
-
-    const loading = svg.append("text")
-        .attr("dy", "0.35em")
-        .attr("text-anchor", "middle")
-        .attr("font-family", "sans-serif")
-        .attr("font-size", 10)
-        .text("Simulating. One moment please…");
 
     // Run the simulation to its end, then draw.
     simulation.tick(Math.ceil(Math.log(simulation.alphaMin()) / Math.log(1 - simulation.alphaDecay())));
+    simulation.stop();
 
-    loading.remove();
-
+    // Draw the links
     svg.append("g")
-        .attr("stroke", "#000")
-        .attr("stroke-width", 1.5)
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 0.5)
         .selectAll("line")
         .data(links)
-        .enter().append("line")
+        .join("line")
         .attr("x1", (d) => d.source.x)
         .attr("y1", (d) => d.source.y)
         .attr("x2", (d) => d.target.x)
         .attr("y2", (d) => d.target.y);
 
+    // Draw the nodes
     svg.append("g")
         .attr("stroke", "#fff")
-        .attr("stroke-width", 1.5)
+        .attr("stroke-width", 1)
         .selectAll("circle")
         .data(nodes)
-        .enter().append("circle")
+        .join("circle")
         .attr("cx", (d) => d.x)
         .attr("cy", (d) => d.y)
-        .attr("r", 4.5);
+        .attr("r", 4);
 
 
-    fs.writeFileSync("test3.svg", svg.node().innerHTML)
+    //fs.writeFileSync("test3.svg", body.node().innerHTML)
     console.log("Pre-render graph successfully.")
-    return body.node().innerHTML;
+    //console.log(svg.node().getBoundingClientRect())
+    // svg.node().getBBox()
+    return svg.node().outerHTML;
 }
