@@ -1,7 +1,5 @@
-import path from 'path';
-import ResultItem from "./resultItem";
+import ResultItem from "../../components/resultItem";
 import prisma from "../db";
-import redisClient from "../redis";
 
 export default async function ResultFiles() {
     const results = await prisma.QueryResult.findMany({orderBy: {updatedAt: "asc"}})

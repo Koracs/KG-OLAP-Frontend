@@ -4,13 +4,14 @@ import N3 from "n3";
 import * as os from "os";
 import prisma from '../db'
 import {revalidatePath} from "next/cache";
+import redisClient from "../redis";
 
 
-export const serverAction = async (queryString, queryMode) => {
+export const serverAction = async (queryString, testMode) => {
     try {
         const uuid = await createDatabaseEntry(queryString);
 
-        if(queryMode === "testMode") {
+        if(testMode) {
             getTestData(uuid);
         } else {
             await getKGData(uuid, queryString);
@@ -66,27 +67,14 @@ async function getKGData(uuid, queryString) {
 
 function getTestData(uuid) {
     const inputStream = fs.createReadStream("./testData/1.nq");
-    const outputStream = fs.createWriteStream("./testData/"+ uuid +".json");
-    parseData(uuid,inputStream,outputStream);
+    parseData(uuid,inputStream);
 }
 
-function parseData(uuid,inputStream,outputStream) {
+function parseData(uuid,inputStream) {
     const parser = new N3.Parser({format: 'N-Quads'});
-    let first = true;
-    let separator = "";
-
     parser.parse(inputStream, quadCallback);
 
-    function quadCallback(error, quad, prefixes) {
-        if(quad === null) {
-            outputStream.write("]");
-            outputStream.end();
-            return;
-        }
-        if (first) {
-            outputStream.write("[");
-            first = false;
-        }
+    async function quadCallback(error, quad, prefixes) {
         if (quad) {
             const quadData = {
                 subject: quad.subject.value,
@@ -94,10 +82,7 @@ function parseData(uuid,inputStream,outputStream) {
                 object: quad.object.value,
                 context: quad.graph.value
             }
-            outputStream.write(separator + JSON.stringify(quadData));
-            if(!separator) {
-                separator = "," + os.EOL;
-            }
+            await redisClient.rPush(uuid, JSON.stringify(quadData));
         }
     }
 

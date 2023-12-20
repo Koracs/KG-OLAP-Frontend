@@ -1,7 +1,7 @@
 import {getServerSession} from "next-auth";
 import {options} from "../api/auth/[...nextauth]/options";
 import {redirect} from "next/navigation";
-import QueryWindow from "./queryWindow";
+import QueryWindow from "../../components/queryWindow";
 import { readFile } from 'fs/promises';
 
 export default async function QueryPage() {

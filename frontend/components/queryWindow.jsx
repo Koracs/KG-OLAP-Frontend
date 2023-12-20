@@ -1,8 +1,8 @@
 "use client"
 import {useState} from "react";
-import {serverAction} from "./queryaction";
+import {serverAction} from "../app/lib/queryaction";
 import CodeEditor from "@uiw/react-textarea-code-editor";
-import styles from "../globals.css" //used for theme change of code editor
+import styles from "../app/globals.css" //used for theme change of code editor
 
 export default function QueryWindow() {
     const [error, setError] = useState("");
@@ -18,8 +18,8 @@ export default function QueryWindow() {
         }
 
         //server side validation
-        const mode = formData.get("testMode")?.valueOf();
-        const result = await serverAction(query, mode);
+        const testMode = formData.get("testMode")?.valueOf()==="testMode";
+        const result = await serverAction(query, testMode);
 
         if(result?.error){
             setError(result.error);
