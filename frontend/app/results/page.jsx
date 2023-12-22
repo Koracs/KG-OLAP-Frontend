@@ -1,5 +1,6 @@
 import ResultItem from "../../components/resultItem";
 import prisma from "../db";
+import Breadcrumbs from "../../components/breadcrumbs";
 
 export default async function ResultFiles() {
     const results = await prisma.QueryResult.findMany({orderBy: {updatedAt: "asc"}})

@@ -88,7 +88,7 @@ function PaginationNumber({page, href, isActive, position}) {
     if (!isActive && position === "middle") return <div className={"pagination-spacer"}></div>
 
     return isActive || position === "middle" ? (
-        <div className={"pagination-number isActive"}>{page}</div>
+        <div className={"pagination-number pagination-isActive"}>{page}</div>
     ) : (
         <Link href={href} className={"pagination-number"}>{page}</Link>
     )

@@ -1,5 +1,6 @@
 "use server"
 import * as d3 from "d3";
+import jsdom from "jsdom";
 
 export default async function preRenderGraph(triples) {
     const graphData = triplesToGraph(triples);
@@ -40,6 +41,14 @@ export default async function preRenderGraph(triples) {
         return graph;
     }
 
+    const {JSDOM} = jsdom;
+
+    const {document} = (new JSDOM('')).window;
+    global.document = document;
+
+    var body = d3.select(document).select("body");
+
+
     const nodes = graphData.nodes;
     const links = graphData.links;
 
@@ -55,7 +64,7 @@ export default async function preRenderGraph(triples) {
         .force("y", d3.forceY(height / 2))
 
     // Create an SVG element
-    const svg = d3.create("svg")
+    const svg = body.append("svg")
         .attr("width", width)
         .attr("height", height)
         .attr("viewBox", [0, 0, width, height])

@@ -1,5 +1,6 @@
 import KeycloakProvider from "next-auth/providers/keycloak";
 import {console} from "next/dist/compiled/@edge-runtime/primitives";
+import {signOut} from "next-auth/react";
 
 
 async function refreshAccessToken(token) {
@@ -55,8 +56,7 @@ export const options = {
                     return refreshedToken;
                 } catch (error) {
                     console.error("Error refreshing access token", error);
-                    return null; //Return null to terminate session
-                    //return {...token, error: "RefreshAccessTokenError"};
+                    return {...token, error: "RefreshAccessTokenError"};
                 }
             }
         },

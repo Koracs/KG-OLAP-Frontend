@@ -1,7 +1,6 @@
 import {Inter} from 'next/font/google'
 import './globals.css'
 import NavBar from "../components/navbar";
-import AuthProvider from "../components/authprovider";
 import {Providers} from "../components/providers";
 
 const inter = Inter({subsets: ['latin']})
@@ -15,14 +14,12 @@ export default function RootLayout({children}) {
     return (
         <html suppressHydrationWarning lang="en">
             <body className={inter.className}>
-            <AuthProvider>
                 <Providers>
                 <main>
                     <NavBar/>
                     {children}
                 </main>
                 </Providers>
-            </AuthProvider>
             </body>
         </html>
     )

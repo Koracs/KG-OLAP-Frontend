@@ -6,6 +6,7 @@
 
 [data-theme='light'] {
     --text-color: black;
+    --text-color-light: #555;
     --background-color: #d6dbdc;
     --secondary-color: #eef0f1;
     --border-color: #acafb0;
@@ -14,6 +15,7 @@
 
 [data-theme='dark'] {
     --text-color: white;
+    --text-color-light: #aaa;
     --background-color: #0c0c0c;
     --secondary-color: #141414;
     --border-color: #6c6c6c;
@@ -65,6 +67,7 @@ h1 {
 .navBar li {
     float: left;
     border-right: 1px solid var(--border-color);
+    font-size: 1.25rem;
 }
 
 .navBar li:last-child {
@@ -276,7 +279,7 @@ tr:hover {background-color: var(--hover-color);}
     width: 100%;
 }
 
-.isActive {
+.pagination-isActive {
     background-color: var(--hover-color);
 }
 
@@ -289,6 +292,25 @@ tr:hover {background-color: var(--hover-color);}
 
 .pagination-arrow:hover, .pagination-number:hover {
     background-color: var(--hover-color);
+}
+
+.breadcrumbs {
+    list-style-type: none;
+    display: flex;
+    font-size: 1rem;
+    line-height: 1.75rem;
+    margin: 1rem;
+    color: var(--text-color-light);
+}
+
+.breadcrumb-spacer {
+    display: inline-block;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.breadcrumb-isActive {
+    color: var(--text-color);
 }
 
 

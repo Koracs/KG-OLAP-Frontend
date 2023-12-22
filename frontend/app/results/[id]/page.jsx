@@ -3,6 +3,7 @@ import ResultTable from "../../../components/resultTable";
 import {fetchResultPages} from "../../lib/data";
 import Pagination from "../../../components/pagination";
 import {Suspense} from "react";
+import Breadcrumbs from "../../../components/breadcrumbs";
 
 export default async function QueryResult({params, searchParams}) {
     const query = searchParams?.query || '';
@@ -11,8 +12,15 @@ export default async function QueryResult({params, searchParams}) {
 
     return (
         <>
+            <Breadcrumbs breadcrumbs={[
+                { label: 'Results', href: '/results' },
+                {
+                    label: params?.id,
+                    href: `/results/${params?.id}`,
+                    active: true,
+                }
+            ]} />
             <h1>Query Result </h1>
-            <h2>{params?.id}</h2>
             <Search placeholder={"Search Table..."}/>
             <Suspense key={query + currentPage} fallback={<div>Loading...</div>}>
                 <ResultTable uuid={params?.id} currentPage={currentPage} query={query}/>
