@@ -6,11 +6,11 @@ import {revalidatePath} from "next/cache";
 import {redisClient} from "../redis";
 
 
-export async function serverAction(queryString, testMode)  {
+export async function serverAction(queryString, testMode) {
     try {
         const uuid = await createDatabaseEntry(queryString);
 
-        if(testMode) {
+        if (testMode) {
             await getTestData(uuid);
         } else {
             await getKGData(uuid, queryString);
@@ -38,8 +38,21 @@ function createDatabaseEntry(queryString) {
     });
 }
 
+function addTimeStamps(uuid, timestamps) {
+    return prisma.queryResult.update({
+        data: {
+            ts_start: timestamps.ts_start
+        }
+    }).then((result) => {
+        return result.id;
+    }).catch((error) => {
+        console.warn(error);
+    });
+}
+
 async function getKGData(uuid, queryString) {
-    const surface_url = process.env.KGOLAP_SURFACE_URL;
+    const surface_url_post = process.env.KGOLAP_SURFACE_URL_POST;
+    const surface_url_get = process.env.KGOLAP_SURFACE_URL_GET;
     const username = process.env.KGOLAP_USERNAME;
     const password = process.env.KGOLAP_PASSWORD;
 
@@ -47,7 +60,7 @@ async function getKGData(uuid, queryString) {
     headers.set('Authorization', 'Basic ' + Buffer.from(username + ":" + password).toString('base64'));
     headers.set('Content-Type', 'application/json');
     headers.set('charset', 'utf-8');
-    const response = await fetch(surface_url,
+    const response = await fetch(surface_url_post,
         {
             method: 'POST',
             headers: headers,
@@ -56,20 +69,33 @@ async function getKGData(uuid, queryString) {
         });
 
     if (response.ok) {
-        const outputStream = fs.createWriteStream("./testData/"+ uuid +".json");
-        parseData(uuid,await response.text(),outputStream);
+        const timestamps = await response.json()
+        await addTimeStamps(uuid, timestamps);
+
+        const fileResponse = await fetch(surface_url_get + `?fileName=${timestamps.filename}`,
+            {
+                method: 'GET',
+                headers: headers,
+                cache: 'no-store'
+            });
+
+        if (fileResponse.ok) {
+            console.log("file request ok")
+            //parseData(uuid, await fileResponse.text());
+        } else {
+            throw new Error("Error while fetching file from KGOLAP: " + fileResponse.status);
+        }
     } else {
         throw new Error("Error while fetching data from KGOLAP: " + response.status);
     }
-
 }
 
 async function getTestData(uuid) {
     const inputStream = fs.createReadStream("./testData/1.nq");
-    await parseData(uuid,inputStream);
+    await parseData(uuid, inputStream);
 }
 
-function parseData(uuid,inputStream) {
+function parseData(uuid, inputStream) {
     const parser = new N3.Parser({format: 'N-Quads'});
     parser.parse(inputStream, quadCallback);
 

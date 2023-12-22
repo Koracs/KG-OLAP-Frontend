@@ -11,8 +11,17 @@ datasource db {
 }
 
 model QueryResult {
-  id        String   @id @default(uuid())
-  queryText String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String   @id @default(uuid())
+  queryText     String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  ts_start      DateTime
+  ts_0          DateTime
+  ts_1          DateTime
+  ts_2          DateTime
+  ts_3          DateTime
+  ts_end        DateTime
+  context_count Int
+  quad_count    Int
+  char_count    Int
 }
