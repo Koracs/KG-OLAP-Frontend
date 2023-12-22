@@ -176,10 +176,11 @@ tr:hover {background-color: var(--hover-color);}
     padding: 1rem 0 1rem 0;
     display: grid;
     grid-template-columns: 4fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-template-areas:
         "uuid results"
-        "queryText rerun"
+        "queryText metrics"
+        "timeSpan rerun"
         "lastUpdate delete";
 }
 
@@ -205,6 +206,13 @@ tr:hover {background-color: var(--hover-color);}
     margin: 5px;
     padding: 15px;
     grid-area: results;
+    text-align: center;
+}
+
+.resultitem-metrics {
+    margin: 5px;
+    padding: 15px;
+    grid-area: metrics;
     text-align: center;
 }
 

@@ -38,10 +38,21 @@ function createDatabaseEntry(queryString) {
     });
 }
 
-function addTimeStamps(uuid, timestamps) {
+function addResultMetrics(uuid, resultMetrics) {
     return prisma.queryResult.update({
+        where: {
+            id: uuid
+        },
         data: {
-            ts_start: timestamps.ts_start
+            ts_start: new Date(resultMetrics.ts_start),
+            ts_0: new Date(resultMetrics.ts_0),
+            ts_1: new Date(resultMetrics.ts_1),
+            ts_3: new Date(resultMetrics.ts_3),
+            ts_2: new Date(resultMetrics.ts_2),
+            ts_end: new Date(resultMetrics.ts_end),
+            context_count: resultMetrics.context_count,
+            quad_count: resultMetrics.quad_count,
+            char_count: resultMetrics.char_count,
         }
     }).then((result) => {
         return result.id;
@@ -70,7 +81,7 @@ async function getKGData(uuid, queryString) {
 
     if (response.ok) {
         const timestamps = await response.json()
-        await addTimeStamps(uuid, timestamps);
+        await addResultMetrics(uuid, timestamps);
 
         const fileResponse = await fetch(surface_url_get + `?fileName=${timestamps.filename}`,
             {
@@ -91,8 +102,14 @@ async function getKGData(uuid, queryString) {
 }
 
 async function getTestData(uuid) {
-    const inputStream = fs.createReadStream("./testData/1.nq");
-    await parseData(uuid, inputStream);
+    fs.readFile("./testData/timestamps.json", (err, data) => {
+        if (err) throw err;
+        addResultMetrics(uuid, JSON.parse(data));
+    });
+
+
+    const fileStream = fs.createReadStream("./testData/resultFile.nq");
+    await parseData(uuid, fileStream);
 }
 
 function parseData(uuid, inputStream) {
