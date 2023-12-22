@@ -2,7 +2,6 @@ import {getServerSession} from "next-auth";
 import {options} from "../api/auth/[...nextauth]/options";
 import {redirect} from "next/navigation";
 import QueryWindow from "../../components/queryWindow";
-import { readFile } from 'fs/promises';
 
 export default async function QueryPage() {
     const session = await getServerSession(options)
@@ -10,7 +9,6 @@ export default async function QueryPage() {
     if (!session) {
         redirect("/api/auth/signin?callbackUrl=/query")
     }
-    const fileData = JSON.parse(await readFile("./testData/1.json", "utf8"));
 
     return (
         <>

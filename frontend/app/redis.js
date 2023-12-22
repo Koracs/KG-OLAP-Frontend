@@ -8,6 +8,9 @@ redisClient.on("error", (error) => {
     console.error(error);
 });
 
-await redisClient.connect();
+if(!redisClient.isOpen) {
+    redisClient.connect();
+}
+
 
 export {redisClient};

@@ -1,18 +1,17 @@
 "use server";
 import * as fs from "fs";
 import N3 from "n3";
-import * as os from "os";
 import prisma from '../db'
 import {revalidatePath} from "next/cache";
-import redisClient from "../redis";
+import {redisClient} from "../redis";
 
 
-export const serverAction = async (queryString, testMode) => {
+export async function serverAction(queryString, testMode)  {
     try {
         const uuid = await createDatabaseEntry(queryString);
 
         if(testMode) {
-            getTestData(uuid);
+            await getTestData(uuid);
         } else {
             await getKGData(uuid, queryString);
         }
@@ -65,9 +64,9 @@ async function getKGData(uuid, queryString) {
 
 }
 
-function getTestData(uuid) {
+async function getTestData(uuid) {
     const inputStream = fs.createReadStream("./testData/1.nq");
-    parseData(uuid,inputStream);
+    await parseData(uuid,inputStream);
 }
 
 function parseData(uuid,inputStream) {
