@@ -11,7 +11,7 @@ export async function fetchFilteredQuads(uuid, query, currentPage) {
     return result;
 }
 
-export async function fetchQuadCount(uuid) {
-    const result =  await redisClient.LLEN(uuid);
-    return result;
+export async function fetchResultPages(uuid) {
+    const quadCount =  await redisClient.LLEN(uuid);
+    return Math.ceil(quadCount / QUADS_PER_PAGE);
 }

@@ -240,4 +240,55 @@ tr:hover {background-color: var(--hover-color);}
     overflow: visible;
 }*/
 
+.pagination {
+    display: flex;
+    margin-left: -1px;
+}
+
+.pagination-number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    /*border : 1px solid var(--border-color);*/
+    background-color: var(--secondary-color);
+    margin: 0 0.25rem;
+}
+
+.pagination-arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    /*border : 1px solid var(--border-color);*/
+    background-color: var(--secondary-color);
+    margin: 0 0.25rem;
+}
+
+.pagination-div {
+    display: flex;
+    margin-top: 1.25rem;
+    justify-content: center;
+    width: 100%;
+}
+
+.isActive {
+    background-color: var(--hover-color);
+}
+
+.pagination-spacer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0.5rem;
+}
+
+.pagination-arrow:hover, .pagination-number:hover {
+    background-color: var(--hover-color);
+}
+
 

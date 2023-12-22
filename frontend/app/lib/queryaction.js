@@ -81,7 +81,7 @@ async function getKGData(uuid, queryString) {
 
     if (response.ok) {
         const timestamps = await response.json()
-        await addResultMetrics(uuid, timestamps);
+        await addResultMetrics(uuid, JSON.parse(timestamps));
 
         const fileResponse = await fetch(surface_url_get + `?fileName=${timestamps.filename}`,
             {
