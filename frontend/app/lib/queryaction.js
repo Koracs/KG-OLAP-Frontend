@@ -61,9 +61,8 @@ function addResultMetrics(uuid, resultMetrics) {
     });
 }
 
-async function getKGData(uuid, queryString) {
-    const surface_url_post = process.env.KGOLAP_SURFACE_URL_POST;
-    const surface_url_get = process.env.KGOLAP_SURFACE_URL_GET;
+async function getKGPrefix() {
+    const prefix_url = process.env.KGOLAP_PREFIX_URL;
     const username = process.env.KGOLAP_USERNAME;
     const password = process.env.KGOLAP_PASSWORD;
 
@@ -71,7 +70,39 @@ async function getKGData(uuid, queryString) {
     headers.set('Authorization', 'Basic ' + Buffer.from(username + ":" + password).toString('base64'));
     headers.set('Content-Type', 'application/json');
     headers.set('charset', 'utf-8');
-    const response = await fetch(surface_url_post,
+    const response = await fetch(prefix_url,
+        {
+            method: 'GET',
+            headers: headers,
+            cache: 'no-store'
+        });
+
+    if (response.ok) {
+        const prefix = await response.text();
+        const replacement = "atm:";
+
+        return {
+            "prefix": prefix,
+            "replacement": replacement
+        }
+    } else {
+        throw new Error("Error while fetching prefix from KGOLAP: " + response.status);
+    }
+}
+
+async function getKGData(uuid, queryString) {
+    const cube_url = process.env.KGOLAP_CUBE_URL;
+    const file_url = process.env.KGOLAP_FILE_URL;
+    const username = process.env.KGOLAP_USERNAME;
+    const password = process.env.KGOLAP_PASSWORD;
+
+    const prefix = await getKGPrefix();
+
+    const headers = new Headers();
+    headers.set('Authorization', 'Basic ' + Buffer.from(username + ":" + password).toString('base64'));
+    headers.set('Content-Type', 'application/json');
+    headers.set('charset', 'utf-8');
+    const response = await fetch(cube_url,
         {
             method: 'POST',
             headers: headers,
@@ -80,10 +111,9 @@ async function getKGData(uuid, queryString) {
         });
 
     if (response.ok) {
-        const timestamps = await response.json()
-        await addResultMetrics(uuid, JSON.parse(timestamps));
-
-        const fileResponse = await fetch(surface_url_get + `?fileName=${timestamps.filename}`,
+        const metrics = JSON.parse(await response.text())
+        await addResultMetrics(uuid, metrics);
+        const fileResponse = await fetch(file_url + `?fileName=${metrics.filename}`,
             {
                 method: 'GET',
                 headers: headers,
@@ -91,8 +121,7 @@ async function getKGData(uuid, queryString) {
             });
 
         if (fileResponse.ok) {
-            console.log("file request ok")
-            //parseData(uuid, await fileResponse.text());
+            parseData(uuid, await fileResponse.text(), prefix);
         } else {
             throw new Error("Error while fetching file from KGOLAP: " + fileResponse.status);
         }
@@ -107,22 +136,25 @@ async function getTestData(uuid) {
         addResultMetrics(uuid, JSON.parse(data));
     });
 
-
+    const prefix = {
+        "prefix": "http://example.org/bigkgolap/atm/",
+        "replacement": "atm:"
+    }
     const fileStream = fs.createReadStream("./testData/resultFile.nq");
-    await parseData(uuid, fileStream);
+    await parseData(uuid, fileStream, prefix);
 }
 
-function parseData(uuid, inputStream) {
+function parseData(uuid, inputStream, prefix) {
     const parser = new N3.Parser({format: 'N-Quads'});
     parser.parse(inputStream, quadCallback);
 
     async function quadCallback(error, quad, prefixes) {
         if (quad) {
             const quadData = {
-                subject: quad.subject.value,
-                predicate: quad.predicate.value,
-                object: quad.object.value,
-                context: quad.graph.value
+                subject: quad.subject.value.replace(prefix.prefix, prefix.replacement),
+                predicate: quad.predicate.value.replace(prefix.prefix, prefix.replacement),
+                object: quad.object.value.replace(prefix.prefix, prefix.replacement),
+                context: quad.graph.value.replace(prefix.prefix, prefix.replacement)
             }
             await redisClient.rPush(uuid, JSON.stringify(quadData));
         }
