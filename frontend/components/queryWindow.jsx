@@ -12,16 +12,16 @@ export default function QueryWindow() {
         //client side validation
         const query = queryString.trim();
         const match = query.match(/^SELECT((\s\*)|(?:\s\w+=[^\s]+)(?:\sAND\s\w+=[^\s]+)*)(\sROLLUP ON(\s\w+)((,\s\w+)*))?$/)
-        if(match == null) {
+        if (match == null) {
             setError("Invalid query string");
             return;
         }
 
         //server side validation
-        const testMode = formData.get("testMode")?.valueOf()==="testMode";
+        const testMode = formData.get("testMode")?.valueOf() === "testMode";
         const result = await serverAction(query, testMode);
 
-        if(result?.error){
+        if (result?.error) {
             setError(result.error);
         } else {
             setError("");
@@ -45,10 +45,11 @@ export default function QueryWindow() {
             />
             {error && (<div className={"errorMessage"}>{error}</div>)}
             <form action={clientAction} className={"queryWindow"}>
-                <label htmlFor="testMode">Test Mode</label>
-                <input type="checkbox" name="testMode" value="testMode" defaultChecked/>
-                <p/>
-                <button type="submit" className={"button"}>submit</button>
+                <div style={{alignSelf:"center"}}>
+                    <label htmlFor="testMode">Test Mode </label>
+                    <input type="checkbox" name="testMode" value="testMode" defaultChecked/>
+                </div>
+                <button type="submit" className={"button"}>Submit</button>
             </form>
         </div>
     );

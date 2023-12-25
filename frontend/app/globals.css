@@ -106,8 +106,12 @@ h1 {
     height: 1rem;
 }
 
-.queryWindow *{
-    margin: 10px;
+.queryWindow {
+    width: 50%;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
     transition: color, background-color var(--transition);
 }
 
@@ -120,6 +124,10 @@ h1 {
     font: inherit;
     border : 1px solid var(--border-color);
     margin-bottom: 0;
+}
+
+.queryWindow .button {
+    font-size: 1.25rem;
 }
 
 .queryWindow textarea:focus {
