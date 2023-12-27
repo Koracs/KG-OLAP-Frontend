@@ -2,6 +2,26 @@
 
 import prisma from '../db'
 import {redisClient} from "@/app/redis";
+import {revalidatePath} from "next/cache";
+import {redirect} from "next/navigation";
+
+export async function deleteResult(uuid) {
+    console.log("hello")
+    await deleteDBEntry(uuid);
+    await deleteRedisEntry(uuid);
+
+    revalidatePath("/results")
+    redirect("/results")
+}
+
+export async function updateResult(uuid) {
+    const result = await prisma.QueryResult.findUnique({where: {id: uuid}});
+    await updateDBEntry(uuid, result.queryText);
+    //await updateFile(fileName); todo update redis
+
+    revalidatePath("/results")
+    revalidatePath("/results/" + uuid)
+}
 
 
 export async function deleteDBEntry(uuid) {

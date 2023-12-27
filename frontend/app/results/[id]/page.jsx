@@ -1,37 +1,40 @@
-import Search from "../../../components/search";
-import ResultTable from "../../../components/resultTable";
-import {fetchResultPages} from "../../lib/data";
-import Pagination from "../../../components/pagination";
-import {Suspense} from "react";
-import Breadcrumbs from "../../../components/breadcrumbs";
+import ResultItem from "@/components/resultItem";
+import prisma from "@/app/db";
+import Breadcrumbs from "@/components/breadcrumbs";
+import Link from "next/link";
+import {deleteResult, updateResult} from "@/app/lib/resultaction";
 
-export default async function QueryResult({params, searchParams}) {
-    const query = searchParams?.query || '';
-    const context = searchParams?.context || '';
-    const currentPage = Number(searchParams?.page) || 1;
-    const totalPages = await fetchResultPages(params?.id, context);
+export default async function ResultPage({params}) {
+    const result = await prisma.QueryResult.findUnique({where: {id: params?.id}});
+    async function deleteAction() {
+        "use server"
+        await deleteResult(params?.id);
+    }
+
+    async function rerunAction() {
+        "use server"
+        await updateResult(params?.id)
+    }
 
     return (
         <>
             <Breadcrumbs breadcrumbs={[
-                { label: 'Results', href: '/results' },
+                {label: 'Results', href: '/results'},
                 {
                     label: params?.id,
                     href: `/results/${params?.id}`,
-                    active: true,
+                    active: true
                 }
-            ]} />
-            <h1>Query Result </h1>
-            {searchParams?.context && <h3>Context: {searchParams?.context}</h3>}
-            <Search placeholder={"Search Table..."}/>
-            <Suspense key={query + currentPage} fallback={<div>Loading...</div>}>
-                <ResultTable uuid={params?.id} currentPage={currentPage} query={query} context={context}/>
-            </Suspense>
-            <div className={"pagination-div"}>
-            <Pagination totalPages={totalPages}/>
-            </div>
-            {/*<Table data={result}/>*/}
-            {/*<Link className={"button"} href={params?.id + "/graph"}>Show Graph</Link>*/}
+            ]}/>
+            <h1>{params?.id}</h1>
+            <p>Query: {result?.queryText}</p>
+            <span className={"resultitem-lastUpdate"}><b>Created:</b> {result?.createdAt.toLocaleString()}</span>
+            <span className={"resultitem-lastUpdate"}><b>Last Update:</b> {result?.updatedAt.toLocaleString()}</span>
+            <Link className={"button resultitem-table"} href={`/results/${result?.id}/table`}>Show Table</Link>
+            <Link className={"button resultitem-contexts"} href={`/results/${result?.id}/contexts`}>Show Contexts</Link>
+            <Link className={"button resultitem-metrics"} href={`/results/${result?.id}/metrics`}>Show Metrics</Link>
+            <button formAction={rerunAction} className={"button resultitem-rerun"}>Re-Run Query</button>
+            <button formAction={deleteAction} className={"button error-button resultitem-delete"}>Delete</button>
         </>
     )
 }

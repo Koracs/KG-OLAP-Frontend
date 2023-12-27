@@ -192,37 +192,40 @@ tr:hover {background-color: var(--hover-color);}
 .resultitem-container {
     width: 70%;
     margin: auto;
-    padding: 1rem 0 1rem 0;
+    padding: 2rem 0 3rem 0;
     display: grid;
-    grid-template-columns: 4fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 0.5fr 0.5fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: .75fr .75fr .75fr 1fr;
     grid-template-areas:
-        "uuid results"
-        "queryText contexts"
-        ". metrics"
-        ". rerun"
-        "lastUpdate delete";
+        "uuid uuid uuid uuid uuid"
+        "queryText queryText queryText queryText queryText"
+        "lastUpdate lastUpdate lastUpdate lastUpdate lastUpdate"
+        "results contexts metrics rerun delete";
 }
 
 .resultitem-uuid {
-    padding: 10px 10px 10px 0;
+    margin: 5px;
+    text-decoration: underline;
+    font-weight: bold;
+    font-size: 1.25rem;
     text-align: left;
     grid-area: uuid;
+
 }
 
 .resultitem-queryText {
-    padding: 10px 10px 10px 0;
+    margin: 5px;
     text-align: left;
     grid-area: queryText;
 }
 
 .resultitem-lastUpdate {
-    padding: 10px 10px 10px 0;
+    margin: 5px;
     text-align: left;
     grid-area: lastUpdate;
 }
 
-.resultitem-results {
+.resultitem-table {
     margin: 5px;
     padding: 15px;
     grid-area: results;
