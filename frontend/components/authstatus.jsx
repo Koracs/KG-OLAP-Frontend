@@ -1,15 +1,25 @@
-import { getServerSession } from "next-auth";
-import {options} from "../app/api/auth/[...nextauth]/options";
+"use client"
 import Link from "next/link";
-import {redirect} from "next/navigation";
+import {signOut, useSession} from "next-auth/react";
+import {useEffect} from "react";
 
-export default async function AuthStatus() {
-    const session = await getServerSession(options);
-    //console.log(session);
+export default function AuthStatus() {
+    const {data: session, status } = useSession();
 
-    return (
+    useEffect(() => {
+        if (
+            status !== "loading" &&
+            session &&
+            session?.error === "RefreshAccessTokenError"
+        ) {
+            signOut({ callbackUrl: "/" });
+        }
+    }, [session, status]);
+
+    if(status === "loading") return (<li><span>Loading</span></li>)
+    else return (
         <>
-            {session? <li><span> {session?.user.name }</span></li> : <></>}
+            {session? <li><span> {session?.user.name}</span></li> : <></>}
             <li>
                 {session? <Link href="/api/auth/signout?callbackUrl=/">Sign out</Link>
                     : <Link href="/api/auth/signin">Sign in</Link>}
