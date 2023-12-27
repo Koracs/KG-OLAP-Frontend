@@ -1,6 +1,7 @@
 "use server"
 import fs from "fs";
 import prisma from '../db'
+import {redisClient} from "@/app/redis";
 
 
 export async function deleteDBEntry(uuid) {
@@ -17,6 +18,15 @@ export async function deleteDBEntry(uuid) {
 
 }
 
+export async function deleteRedisEntry(uuid) {
+    //delete entry in redis with uuid
+    await redisClient.del(uuid).then((result) => {
+        console.log("Delete Redis Entry " + uuid + " successfully.");
+    }).catch((error) => {
+        console.warn(error);
+    });
+}
+
 export async function updateDBEntry(uuid, queryText) {
     //update entry in database with query string
     prisma.queryResult.update({
@@ -31,20 +41,3 @@ export async function updateDBEntry(uuid, queryText) {
         console.warn(error);
     });
 }
-
-export async function deleteFile(fileName) {
-    const directoryPath = "./testData/";
-    if(fs.existsSync(directoryPath + fileName)) {
-        fs.unlink(directoryPath + fileName, (err) => {
-            if (err) throw err;
-            console.log("Delete File " + fileName + " successfully.");
-        });
-    } else {
-        console.warn("File " + fileName + " does not exist.");
-    }
-}
-
-export async function updateFile(fileName) {
-    const directoryPath = "./testData/";
-}
-

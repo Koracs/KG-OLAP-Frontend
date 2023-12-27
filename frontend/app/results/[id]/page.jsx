@@ -21,6 +21,7 @@ export default async function QueryResult({params, searchParams}) {
                 }
             ]} />
             <h1>Query Result </h1>
+            {searchParams?.context && <h3>Context: {searchParams?.context}</h3>}
             <Search placeholder={"Search Table..."}/>
             <Suspense key={query + currentPage} fallback={<div>Loading...</div>}>
                 <ResultTable uuid={params?.id} currentPage={currentPage} query={query}/>

@@ -157,6 +157,7 @@ function parseData(uuid, inputStream, prefix) {
                 context: quad.graph.value.replace(prefix.prefix, prefix.replacement)
             }
             await redisClient.rPush(uuid, JSON.stringify(quadData));
+            await redisClient.sAdd(uuid + ":contexts", quadData.context);
         }
     }
 

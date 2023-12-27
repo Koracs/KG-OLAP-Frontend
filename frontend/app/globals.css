@@ -91,19 +91,19 @@ h1 {
 }
 
 .themeChanger {
-    height: 24px;
-    width: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: 12px;
-    display: block;
     border: none;
     background: none;
     border-radius: 50%;
+    padding: 0.25rem;
 }
 
 .themeChanger svg {
-    vertical-align: middle;
-    width: 1rem;
-    height: 1rem;
+    width: 1.25rem;
+    height: 1.25rem;
 }
 
 .queryWindow {
@@ -134,13 +134,14 @@ h1 {
     outline: none;
 }
 
-.button, .queryWindow button {
+.button, button {
     padding: 5px 10px;
     border: none;
     background-color: var(--secondary-color);
     color: var(--text-color);
     font: inherit;
-
+    transition: color, background-color var(--transition);
+    text-align: center;
 }
 
 button:hover, .button:hover {
@@ -171,6 +172,11 @@ table {
     border: 1px solid var(--border-color);
 }
 
+thead {
+    background-color: var(--secondary-color);
+    font-size: 1.125rem;
+}
+
 tr {
     border-bottom: 1px solid var(--border-color);
 }
@@ -187,11 +193,12 @@ tr:hover {background-color: var(--hover-color);}
     padding: 1rem 0 1rem 0;
     display: grid;
     grid-template-columns: 4fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 0.5fr 0.5fr;
     grid-template-areas:
         "uuid results"
-        "queryText metrics"
-        "timeSpan rerun"
+        "queryText contexts"
+        ". metrics"
+        ". rerun"
         "lastUpdate delete";
 }
 
@@ -217,14 +224,18 @@ tr:hover {background-color: var(--hover-color);}
     margin: 5px;
     padding: 15px;
     grid-area: results;
-    text-align: center;
 }
 
 .resultitem-metrics {
     margin: 5px;
     padding: 15px;
     grid-area: metrics;
-    text-align: center;
+}
+
+.resultitem-contexts {
+    margin: 5px;
+    padding: 15px;
+    grid-area: contexts;
 }
 
 .resultitem-rerun {
@@ -253,7 +264,6 @@ tr:hover {background-color: var(--hover-color);}
 
 .pagination {
     display: flex;
-    margin-left: -1px;
 }
 
 .pagination-number {
@@ -319,6 +329,21 @@ tr:hover {background-color: var(--hover-color);}
 
 .breadcrumb-isActive {
     color: var(--text-color);
+}
+
+.contexts {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: auto;
+}
+
+.context {
+    margin: 5px;
+    padding: 15px;
+    text-align: center;
+    overflow-wrap: break-word;
 }
 
 

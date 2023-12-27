@@ -13,7 +13,7 @@ export default async function QueryPage() {
     return (
         <>
             <h1>Query</h1>
-            <h2>Enter Query to get Data from Cube</h2>
+            <h3>Enter Query to get Data from Cube</h3>
             <br/>
             <QueryWindow/>
             <br/>

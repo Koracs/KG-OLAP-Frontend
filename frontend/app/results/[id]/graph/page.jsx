@@ -1,6 +1,7 @@
 import preRenderGraph from "../../../lib/pre-render-graph";
 import Breadcrumbs from "../../../../components/breadcrumbs";
-import {fetchAllQuads} from "../../../lib/data";
+import {fetchAllQuads} from "@/app/lib/data";
+import SvgViewer from "@/components/svgViewer";
 
 export default async function ResultGraphPage({params}) {
     const quads = await fetchAllQuads(params?.id);
@@ -23,6 +24,7 @@ export default async function ResultGraphPage({params}) {
             <h1>Query Result Graph</h1>
             <h2>{params?.id}</h2>
             <div dangerouslySetInnerHTML={{ __html:svg}} />
+            <SvgViewer/>
         </>
     )
 }
