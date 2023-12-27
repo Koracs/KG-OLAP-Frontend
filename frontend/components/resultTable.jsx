@@ -1,7 +1,7 @@
 import {fetchFilteredQuads} from "@/app/lib/data";
 
-export default async function ResultTable({uuid, query, currentPage}){
-    const quads = await fetchFilteredQuads(uuid, query, currentPage);
+export default async function ResultTable({uuid, query, currentPage, context}){
+    const quads = await fetchFilteredQuads(uuid, query, currentPage, context);
 
     return (
         <table>

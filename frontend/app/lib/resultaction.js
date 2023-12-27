@@ -1,5 +1,5 @@
 "use server"
-import fs from "fs";
+
 import prisma from '../db'
 import {redisClient} from "@/app/redis";
 
@@ -19,11 +19,13 @@ export async function deleteDBEntry(uuid) {
 }
 
 export async function deleteRedisEntry(uuid) {
-    //delete entry in redis with uuid
-    await redisClient.del(uuid).then((result) => {
-        console.log("Delete Redis Entry " + uuid + " successfully.");
-    }).catch((error) => {
-        console.warn(error);
+    const keys = await redisClient.scan(0,{MATCH: uuid+"*"} ).then((result) => {
+        return result.keys;
+    });
+    keys.forEach((key) => {
+        redisClient.del(key).catch((error) => {
+            console.warn(error);
+        });
     });
 }
 

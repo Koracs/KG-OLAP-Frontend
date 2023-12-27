@@ -1,12 +1,14 @@
 import {redisClient} from "@/app/redis";
 import prisma from "@/app/db";
 
-const QUADS_PER_PAGE = 10;
-export async function fetchFilteredQuads(uuid, query, currentPage) {
+const QUADS_PER_PAGE = 20;
+const CONTEXTS_PER_PAGE = 10;
+export async function fetchFilteredQuads(uuid, query, currentPage, context) {
     const start = (currentPage - 1) * QUADS_PER_PAGE;
     const end = start + QUADS_PER_PAGE - 1;
+    const key = context ? uuid + ":" + context : uuid;
 
-    const quads = await redisClient.lRange(uuid, start, end);
+    const quads = await redisClient.lRange(key, start, end);
     let result = quads.map((item) => JSON.parse(item));
 
     if (query) {
@@ -21,31 +23,35 @@ export async function fetchFilteredQuads(uuid, query, currentPage) {
     return result;
 }
 
-export async function fetchAllQuads(uuid) {
-    const quads = await redisClient.lRange(uuid, 0, -1);
+export async function fetchAllQuads(uuid, context) {
+    const key = uuid + ":" + context;
+    const quads = await redisClient.lRange(key, 0, -1);
     const result = quads.map((item) => JSON.parse(item));
 
     return result;
 }
 
 export async function fetchContexts(uuid, query, currentPage) {
-    const contexts = await redisClient.sMembers(uuid + ":contexts");
+    const start = (currentPage - 1) * CONTEXTS_PER_PAGE;
+    const end = start + CONTEXTS_PER_PAGE;
+    const contexts = await redisClient.sScan(uuid + ":contexts", 0, {MATCH: "*"+query+"*"}).then((result) => {
+        return result.members
+    });
 
-    return contexts;
+    return contexts.slice(start, end);
 }
 
 export async function fetchContextPages(uuid, query) {
-    const contexts = await redisClient.sScan(uuid + ":contexts", 0, "MATCH", "*" + query + "*").then((result) => {
-        return {
-            members: result.members
-        }
+    const contexts = await redisClient.sScan(uuid + ":contexts", 0, {MATCH: "*"+query+"*"}).then((result) => {
+        return result.members
     });
-    console.log(query)
-    console.log(contexts)
-    return Math.ceil(1 / QUADS_PER_PAGE);
+
+    return Math.ceil(contexts?.length / QUADS_PER_PAGE);
 }
 
-export async function fetchResultPages(uuid) {
-    const quadCount =  await redisClient.LLEN(uuid);
+export async function fetchResultPages(uuid, context) {
+    const key = context ? uuid + ":" + context : uuid;
+    const quadCount =  await redisClient.LLEN(key);
+
     return Math.ceil(quadCount / QUADS_PER_PAGE);
 }

@@ -7,8 +7,9 @@ import Breadcrumbs from "../../../components/breadcrumbs";
 
 export default async function QueryResult({params, searchParams}) {
     const query = searchParams?.query || '';
+    const context = searchParams?.context || '';
     const currentPage = Number(searchParams?.page) || 1;
-    const totalPages = await fetchResultPages(params?.id);
+    const totalPages = await fetchResultPages(params?.id, context);
 
     return (
         <>
@@ -24,7 +25,7 @@ export default async function QueryResult({params, searchParams}) {
             {searchParams?.context && <h3>Context: {searchParams?.context}</h3>}
             <Search placeholder={"Search Table..."}/>
             <Suspense key={query + currentPage} fallback={<div>Loading...</div>}>
-                <ResultTable uuid={params?.id} currentPage={currentPage} query={query}/>
+                <ResultTable uuid={params?.id} currentPage={currentPage} query={query} context={context}/>
             </Suspense>
             <div className={"pagination-div"}>
             <Pagination totalPages={totalPages}/>

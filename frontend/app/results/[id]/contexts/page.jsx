@@ -8,7 +8,7 @@ import Pagination from "@/components/pagination";
 export default async function ContextsPage({params, searchParams}) {
     const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
-    const totalPages = await fetchContextPages(params?.id);
+    const totalPages = await fetchContextPages(params?.id, query);
 
     return (
         <>

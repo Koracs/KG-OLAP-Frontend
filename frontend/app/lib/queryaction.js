@@ -158,6 +158,7 @@ function parseData(uuid, inputStream, prefix) {
             }
             await redisClient.rPush(uuid, JSON.stringify(quadData));
             await redisClient.sAdd(uuid + ":contexts", quadData.context);
+            await redisClient.rPush(uuid+":"+quadData.context, JSON.stringify(quadData));
         }
     }
 
