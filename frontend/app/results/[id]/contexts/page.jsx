@@ -25,7 +25,9 @@ export default async function ContextsPage({params, searchParams}) {
                 }
             ]}/>
             <h1>Query Result Contexts</h1>
-            <Search placeholder={"Search Contexts..."}/>
+            <div style={{width:"70%",margin:"auto"}}>
+                <Search placeholder={"Search Contexts..."}/>
+            </div>
             <Suspense key={query + currentPage} fallback={<div>Loading...</div>}>
                 <ResultContexts uuid={params?.id} currentPage={currentPage} query={query}/>
             </Suspense>

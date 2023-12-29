@@ -1,10 +1,11 @@
 "use client"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import { useDebouncedCallback } from "use-debounce"
+import {usePathname, useRouter, useSearchParams} from "next/navigation"
+import {useDebouncedCallback} from "use-debounce"
+import {MagnifyingGlassIcon} from '@heroicons/react/24/outline';
 
-export default function Search({ placeholder }) {
+export default function Search({placeholder}) {
     const searchParams = useSearchParams()
-    const { replace } = useRouter()
+    const {replace} = useRouter()
     const pathname = usePathname()
 
     const handleSearch = useDebouncedCallback(term => {
@@ -23,9 +24,9 @@ export default function Search({ placeholder }) {
     }, 300)
 
     return (
-        <div>
-            <label htmlFor="search">Search</label>
-            <input
+        <div className={"search"}>
+            <MagnifyingGlassIcon className={"search-icon"}/>
+            <input className={"search-input"}
                 placeholder={placeholder}
                 onChange={e => {
                     handleSearch(e.target.value)

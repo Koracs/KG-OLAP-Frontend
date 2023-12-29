@@ -279,7 +279,6 @@ tr:hover {background-color: var(--hover-color);}
     height: 2.5rem;
     font-size: 0.875rem;
     line-height: 1.25rem;
-    /*border : 1px solid var(--border-color);*/
     background-color: var(--secondary-color);
     margin: 0 0.25rem;
 }
@@ -290,7 +289,6 @@ tr:hover {background-color: var(--hover-color);}
     align-items: center;
     width: 2.5rem;
     height: 2.5rem;
-    /*border : 1px solid var(--border-color);*/
     background-color: var(--secondary-color);
     margin: 0 0.25rem;
 }
@@ -340,11 +338,11 @@ tr:hover {background-color: var(--hover-color);}
     width: 70%;
     margin: auto;
     display: grid;
-    grid-template-columns: 4fr 1fr;
+    grid-template-columns: 75% 25%;
+    grid-gap: 1rem;
 }
 
 .contextLink {
-    margin: 10px;
     padding: 15px;
     text-align: center;
     overflow-wrap: break-word;
@@ -373,6 +371,42 @@ tr:hover {background-color: var(--hover-color);}
 .result-link {
     margin: 5px;
     padding: 15px;
+}
+
+.search {
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    width: 75%;
+    float: left;
+    flex-wrap: nowrap;
+}
+
+.search-input {
+    padding-left: 2rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--secondary-color);
+    outline-width: 2px;
+    width: 100%;
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.search-icon {
+    position: absolute;
+    left: 0.5rem;
+    top: 0.25rem;
+    color: var(--text-color-light);
+    height: 18px;
+    width: 18px;
+}
+
+.search-button {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
+    margin-bottom: 0.25rem;
 }
 
 

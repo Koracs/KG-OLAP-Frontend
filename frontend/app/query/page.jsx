@@ -5,6 +5,7 @@ export default async function QueryPage() {
 
     return (
         <>
+            <div style={{height:"1.75rem",margin:"1rem"}}></div>
             <h1>Query</h1>
             <h3>Enter Query to get Data from Cube</h3>
             <br/>

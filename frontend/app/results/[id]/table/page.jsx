@@ -1,9 +1,10 @@
-import Search from "../../../../components/search";
-import ResultTable from "../../../../components/resultTable";
-import {fetchResultPages} from "../../../lib/data";
-import Pagination from "../../../../components/pagination";
+import Search from "@/components/search";
+import ResultTable from "@/components/resultTable";
+import {fetchResultPages} from "@/app/lib/data";
+import Pagination from "@/components/pagination";
 import {Suspense} from "react";
-import Breadcrumbs from "../../../../components/breadcrumbs";
+import Breadcrumbs from "@/components/breadcrumbs";
+import Link from "next/link";
 
 export default async function QueryResult({params, searchParams}) {
     const query = searchParams?.query || '';
@@ -14,7 +15,7 @@ export default async function QueryResult({params, searchParams}) {
     return (
         <>
             <Breadcrumbs breadcrumbs={[
-                { label: 'Results', href: '/results' },
+                {label: 'Results', href: '/results'},
                 {
                     label: params?.id,
                     href: `/results/${params?.id}`,
@@ -24,15 +25,19 @@ export default async function QueryResult({params, searchParams}) {
                     href: `/results/${params?.id}/Table`,
                     active: true,
                 }
-            ]} />
+            ]}/>
             <h1>Query Result </h1>
-            {searchParams?.context && <h3>Context: {searchParams?.context}</h3>}
-            <Search placeholder={"Search Table..."}/>
+            {searchParams?.context && <h2>Context: {searchParams?.context}</h2>}
+            <div style={{width: "90%", margin: "auto"}}>
+                <Search placeholder={"Search Table..."}/>
+                <Link className={"button search-button"} href={`/results/${params?.id}/contexts`}>Filter
+                    Contexts</Link>
+            </div>
             <Suspense key={query + currentPage} fallback={<div>Loading...</div>}>
                 <ResultTable uuid={params?.id} currentPage={currentPage} query={query} context={context}/>
             </Suspense>
             <div className={"pagination-div"}>
-            <Pagination totalPages={totalPages}/>
+                <Pagination totalPages={totalPages}/>
             </div>
             {/*<Table data={result}/>*/}
             {/*<Link className={"button"} href={params?.id + "/graph"}>Show Graph</Link>*/}

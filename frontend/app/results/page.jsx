@@ -7,6 +7,13 @@ export default async function ResultOverview() {
 
     return (
         <>
+            <Breadcrumbs breadcrumbs={[
+                {
+                    label: 'Results',
+                    href: `/results`,
+                    active: true
+                }
+            ]}/>
             <h1>Saved Query Results</h1>
             <div>
                 {results.map((item) => {
