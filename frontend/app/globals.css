@@ -195,11 +195,11 @@ tr:hover {background-color: var(--hover-color);}
     padding: 2rem 0 3rem 0;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: .75fr .75fr .75fr 1fr;
+    grid-template-rows: .5fr .5fr .5fr 1fr;
     grid-template-areas:
         "uuid uuid uuid uuid uuid"
         "queryText queryText queryText queryText queryText"
-        "lastUpdate lastUpdate lastUpdate lastUpdate lastUpdate"
+        "lastUpdate lastUpdate lastUpdate testMode ."
         "results contexts metrics rerun delete";
 }
 
@@ -223,6 +223,11 @@ tr:hover {background-color: var(--hover-color);}
     margin: 5px;
     text-align: left;
     grid-area: lastUpdate;
+}
+
+.resultitem-testMode {
+    margin: 5px;
+    grid-area: testMode;
 }
 
 .resultitem-table {

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import {deleteResult, rerunResult} from "@/app/lib/resultaction";
 
-export default function ResultItem({uuid, queryText, lastUpdate}) {
+export default function ResultItem({uuid, queryText, lastUpdate, testMode}) {
 
     async function deleteAction() {
         "use server"
@@ -18,6 +18,7 @@ export default function ResultItem({uuid, queryText, lastUpdate}) {
             <Link className={"resultitem-uuid"} href={`/results/${uuid}`}>{uuid}</Link>
             <span className={"resultitem-queryText"}><b>Query:</b> {queryText}</span>
             <span className={"resultitem-lastUpdate"}><b>Last Update:</b> {lastUpdate.toLocaleString()}</span>
+            {testMode? <span style={{color:"var(--error-color)"}} className={"resultitem-testMode"}>Test Mode!</span> : <span></span>}
             <Link className={"button resultitem-table"} href={`/results/${uuid}/table`}>Show Table</Link>
             <Link className={"button resultitem-contexts"} href={`/results/${uuid}/contexts`}>Show Contexts</Link>
             <Link className={"button resultitem-metrics"} href={`/results/${uuid}/metrics`}>Show Metrics</Link>

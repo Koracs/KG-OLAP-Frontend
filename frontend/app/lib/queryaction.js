@@ -16,6 +16,7 @@ export async function executeQuery(queryString, testMode, uuid) {
             await getKGData(uuid, queryString);
         }
 
+        console.log("Query " + queryString + " executed successfully. UUID: " + uuid + " Test Mode: " + testMode);
     } catch (error) {
         console.error(error);
         return {

@@ -38,7 +38,7 @@ export async function rerunResult(uuid) {
     } catch (error) {
         console.error(error);
     }
-    console.log("Update Result " + uuid + " successfully.");
+
     revalidatePath("/results")
     revalidatePath("/results/" + uuid)
 }

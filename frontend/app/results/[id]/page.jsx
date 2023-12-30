@@ -32,6 +32,7 @@ export default async function ResultPage({params}) {
                 }
             ]}/>
             <h1>{params?.id}</h1>
+            {result?.testMode? <h2 style={{color:"var(--error-color)"}}>Test Mode Query!</h2> : <></>}
             <br/>
             <h2>Query Results</h2>
             <div className={"result"}>

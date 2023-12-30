@@ -23,6 +23,7 @@ export default async function ResultOverview() {
                             uuid={item.id}
                             queryText={item.queryText}
                             lastUpdate={item.updatedAt}
+                            testMode={item.testMode}
                         />
                     )
                 })}

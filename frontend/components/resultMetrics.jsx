@@ -12,6 +12,8 @@ export default async function ResultMetrics({uuid}) {
     const context_time = (results?.ts_2 - results?.ts_0) / 1000;
 
     return(
+        <>
+        {results?.testMode? <h2 style={{color:"var(--error-color)"}}>Test Mode Query!</h2> : <></>}
         <div>
             <p>Start time: {results?.ts_start.toLocaleString()}</p>
             <p>merge operation finished: {results?.ts_0.toLocaleString()}</p>
@@ -28,5 +30,6 @@ export default async function ResultMetrics({uuid}) {
             <p>build time (seconds): {build_time}</p>
             <p>context time (seconds): {context_time}</p>
         </div>
+        </>
     )
 }

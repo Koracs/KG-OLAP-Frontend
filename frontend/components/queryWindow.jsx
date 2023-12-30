@@ -47,7 +47,7 @@ export default function QueryWindow() {
             <form action={clientAction} className={"queryWindow"}>
                 <div style={{alignSelf:"center"}}>
                     <label htmlFor="testMode">Test Mode </label>
-                    <input type="checkbox" name="testMode" value="testMode" defaultChecked/>
+                    <input type="checkbox" name="testMode" value="testMode"/>
                 </div>
                 <button type="submit" className={"button"}>Submit</button>
             </form>
