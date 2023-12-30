@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {deleteResult, updateResult} from "@/app/lib/resultaction";
+import {deleteResult, rerunResult} from "@/app/lib/resultaction";
 
 export default function ResultItem({uuid, queryText, lastUpdate}) {
 
@@ -10,7 +10,7 @@ export default function ResultItem({uuid, queryText, lastUpdate}) {
 
     async function rerunAction() {
         "use server"
-        await updateResult(uuid)
+        await rerunResult(uuid);
     }
 
     return (

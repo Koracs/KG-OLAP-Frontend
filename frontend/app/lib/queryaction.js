@@ -6,9 +6,9 @@ import {revalidatePath} from "next/cache";
 import {redisClient} from "../redis";
 
 
-export async function serverAction(queryString, testMode) {
+export async function executeQuery(queryString, testMode, uuid) {
     try {
-        const uuid = await createDatabaseEntry(queryString);
+        uuid = uuid === undefined ? await createDatabaseEntry(queryString, testMode) : uuid;
 
         if (testMode) {
             await getTestData(uuid);
@@ -22,14 +22,17 @@ export async function serverAction(queryString, testMode) {
             error: error.message,
         }
     }
+
     revalidatePath("/results")
+    revalidatePath("/results/" + uuid)
 }
 
-function createDatabaseEntry(queryString) {
+function createDatabaseEntry(queryString, testMode) {
     //create entry in database with query string
     return prisma.queryResult.create({
         data: {
-            queryText: queryString
+            queryText: queryString,
+            testMode: testMode
         }
     }).then((result) => {
         return result.id;
@@ -158,7 +161,7 @@ function parseData(uuid, inputStream, prefix) {
             }
             await redisClient.rPush(uuid, JSON.stringify(quadData));
             await redisClient.sAdd(uuid + ":contexts", quadData.context);
-            await redisClient.rPush(uuid+":"+quadData.context, JSON.stringify(quadData));
+            await redisClient.rPush(uuid + ":" + quadData.context, JSON.stringify(quadData));
         }
     }
 

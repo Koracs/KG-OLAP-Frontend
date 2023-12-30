@@ -4,21 +4,41 @@ import prisma from '../db'
 import {redisClient} from "@/app/redis";
 import {revalidatePath} from "next/cache";
 import {redirect} from "next/navigation";
+import {executeQuery} from "@/app/lib/queryaction";
 
 export async function deleteResult(uuid) {
-    console.log("hello")
-    await deleteDBEntry(uuid);
-    await deleteRedisEntry(uuid);
-
+    try {
+        await deleteDBEntry(uuid);
+        await deleteRedisEntry(uuid);
+    } catch (error) {
+        console.error(error);
+    }
     revalidatePath("/results")
     redirect("/results")
 }
 
-export async function updateResult(uuid) {
-    const result = await prisma.QueryResult.findUnique({where: {id: uuid}});
-    await updateDBEntry(uuid, result.queryText);
-    //await updateFile(fileName); todo update redis
+export async function rerunResult(uuid) {
+    try {
+        //get query string and test mode indicator from database
+        const result = await prisma.queryResult.findUnique({
+            where: {
+                id: uuid
+            }
+        }).then((result) => {
+            return result;
+        }).catch((error) => {
+            console.warn(error);
+        });
 
+        //delete current results in redis
+        await deleteRedisEntry(uuid);
+
+        //run query again
+        await executeQuery(result.queryText, result.testMode, uuid);
+    } catch (error) {
+        console.error(error);
+    }
+    console.log("Update Result " + uuid + " successfully.");
     revalidatePath("/results")
     revalidatePath("/results/" + uuid)
 }
@@ -39,7 +59,7 @@ export async function deleteDBEntry(uuid) {
 }
 
 export async function deleteRedisEntry(uuid) {
-    const keys = await redisClient.scan(0,{MATCH: uuid+"*"} ).then((result) => {
+    const keys = await redisClient.scan(0, {MATCH: uuid + "*"}).then((result) => {
         return result.keys;
     });
     keys.forEach((key) => {
