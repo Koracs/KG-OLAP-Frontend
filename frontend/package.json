@@ -24,7 +24,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-force-graph-2d": "^1.25.3",
+    "react-inlinesvg": "^4.1.0",
     "react-svg-pan-zoom": "^3.12.1",
+    "react-svg-pan-zoom-loader": "^1.6.1",
     "redis": "^4.6.11",
     "use-debounce": "^10.0.0"
   },
