@@ -22,6 +22,7 @@ export default async function ResultGraphPage({params, searchParams}) {
             ]}/>
             <h1>Query Result Graph</h1>
             <PreRenderedGraph uuid={params?.id} context={searchParams.context}/>
+            <br/>
         </>
     )
 }

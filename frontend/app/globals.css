@@ -411,13 +411,5 @@ tr:hover {background-color: var(--hover-color);}
 
 .svgViewer {
     margin: auto;
-    background-color: green;
-    color: red;
 }
-
-.svgViewer svg {
-    background-color: green;
-    color: red;
-}
-
 

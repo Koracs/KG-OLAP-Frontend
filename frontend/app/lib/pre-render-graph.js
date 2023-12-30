@@ -67,7 +67,7 @@ export default async function preRenderGraph(triples) {
     const svg = body.append("svg")
         .attr("width", width)
         .attr("height", height)
-        .attr("viewBox", [0, 0, width/2, height])
+        .attr("viewBox", [0, 0, width, height])
 
     //add coordinate system
     // svg.append("path")
