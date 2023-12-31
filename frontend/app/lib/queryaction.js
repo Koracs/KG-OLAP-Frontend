@@ -8,7 +8,6 @@ import {redirect} from "next/navigation";
 
 
 export async function executeQuery(queryString, testMode, uuid) {
-    await new Promise(r => setTimeout(r, 1000));
     try {
         uuid = uuid === undefined ? await createDatabaseEntry(queryString, testMode) : uuid;
 
