@@ -431,5 +431,23 @@ tr:hover {background-color: var(--hover-color);}
     margin: auto;
 }
 
+.hero {
+    margin: auto;
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+}
 
+.hero div {
+    margin: auto;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin: auto;
+}
+
+.hero img {
+    margin: 1rem;
+}
 

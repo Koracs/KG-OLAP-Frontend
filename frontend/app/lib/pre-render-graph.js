@@ -65,9 +65,10 @@ export default async function preRenderGraph(triples) {
 
     // Create an SVG element
     const svg = body.append("svg")
+        .attr("xmlns", "http://www.w3.org/2000/svg")
         .attr("width", width)
         .attr("height", height)
-        .attr("viewBox", [0, 0, width, height])
+        .attr("viewBox", [0, 0, width, height]);
 
     //add coordinate system
     // svg.append("path")
@@ -86,7 +87,7 @@ export default async function preRenderGraph(triples) {
 
     // Draw the links
     svg.append("g")
-        .attr("stroke", "#fff")
+        .attr("stroke", "var(--text-color)")
         .attr("stroke-width", 0.5)
         .selectAll("line")
         .data(links)
@@ -102,7 +103,8 @@ export default async function preRenderGraph(triples) {
 
     // Draw the nodes
     svg.append("g")
-        .attr("stroke", "#fff")
+        .attr("fill", "var(--text-color)")
+        .attr("stroke", "var(--secondary-color)")
         .attr("stroke-width", 1)
         .selectAll("circle")
         .data(nodes)
