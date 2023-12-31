@@ -41,6 +41,13 @@ export async function fetchContexts(uuid, query, currentPage) {
     return contexts.slice(start, end);
 }
 
+export async function fetchContextQuadCount(uuid, context) {
+    const key = uuid + ":" + context;
+    const quadCount =  await redisClient.LLEN(key);
+
+    return quadCount;
+}
+
 export async function fetchContextPages(uuid, query) {
     const contexts = await redisClient.sScan(uuid + ":contexts", 0, {MATCH: "*"+query+"*"}).then((result) => {
         return result.members

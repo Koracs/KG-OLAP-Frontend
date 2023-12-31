@@ -343,7 +343,7 @@ tr:hover {background-color: var(--hover-color);}
     width: 70%;
     margin: auto;
     display: grid;
-    grid-template-columns: 75% 25%;
+    grid-template-columns: 2fr .5fr .5fr;
     grid-gap: 1rem;
 }
 
@@ -351,6 +351,19 @@ tr:hover {background-color: var(--hover-color);}
     padding: 15px;
     text-align: center;
     overflow-wrap: break-word;
+}
+
+.context-search {
+    width: 70%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 2fr .5fr .5fr;
+    grid-gap: 1rem;
+}
+
+.context-quads {
+    margin: auto;
+    flex: none;
 }
 
 .result {
@@ -383,7 +396,7 @@ tr:hover {background-color: var(--hover-color);}
     display: flex;
     justify-content: space-between;
     position: relative;
-    width: 75%;
+    /*width: 75%;*/
     float: left;
     flex-wrap: nowrap;
 }
@@ -417,4 +430,6 @@ tr:hover {background-color: var(--hover-color);}
 .svgViewer {
     margin: auto;
 }
+
+
 

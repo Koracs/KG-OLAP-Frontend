@@ -29,7 +29,7 @@ export default async function QueryResult({params, searchParams}) {
             <h1>Query Result </h1>
             {searchParams?.context && <h2>Context: {searchParams?.context}</h2>}
             <div style={{width: "90%", margin: "auto"}}>
-                <Search placeholder={"Search Table..."}/>
+                <Search placeholder={"Search Table..."} width={"75%"}/>
                 <Link className={"button search-button"} href={`/results/${params?.id}/contexts`}>Filter
                     Contexts</Link>
             </div>
@@ -39,8 +39,6 @@ export default async function QueryResult({params, searchParams}) {
             <div className={"pagination-div"}>
                 <Pagination totalPages={totalPages}/>
             </div>
-            {/*<Table data={result}/>*/}
-            {/*<Link className={"button"} href={params?.id + "/graph"}>Show Graph</Link>*/}
         </>
     )
 }

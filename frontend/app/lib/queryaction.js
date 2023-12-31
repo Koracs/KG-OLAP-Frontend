@@ -4,9 +4,11 @@ import N3 from "n3";
 import prisma from '../db'
 import {revalidatePath} from "next/cache";
 import {redisClient} from "../redis";
+import {redirect} from "next/navigation";
 
 
 export async function executeQuery(queryString, testMode, uuid) {
+    await new Promise(r => setTimeout(r, 1000));
     try {
         uuid = uuid === undefined ? await createDatabaseEntry(queryString, testMode) : uuid;
 
@@ -25,7 +27,7 @@ export async function executeQuery(queryString, testMode, uuid) {
     }
 
     revalidatePath("/results")
-    revalidatePath("/results/" + uuid)
+    redirect("/results/" + uuid)
 }
 
 function createDatabaseEntry(queryString, testMode) {
@@ -160,7 +162,11 @@ function parseData(uuid, inputStream, prefix) {
                 object: quad.object.value.replace(prefix.prefix, prefix.replacement),
                 context: quad.graph.value.replace(prefix.prefix, prefix.replacement)
             }
-            await redisClient.rPush(uuid, JSON.stringify(quadData));
+            await redisClient.rPush(uuid, JSON.stringify(quadData)).then((result) => {
+                return result;
+            }).catch((error) => {
+                console.warn(error);
+            });
             await redisClient.sAdd(uuid + ":contexts", quadData.context);
             await redisClient.rPush(uuid + ":" + quadData.context, JSON.stringify(quadData));
         }

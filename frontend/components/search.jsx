@@ -3,7 +3,7 @@ import {usePathname, useRouter, useSearchParams} from "next/navigation"
 import {useDebouncedCallback} from "use-debounce"
 import {MagnifyingGlassIcon} from '@heroicons/react/24/outline';
 
-export default function Search({placeholder}) {
+export default function Search({placeholder, width}) {
     const searchParams = useSearchParams()
     const {replace} = useRouter()
     const pathname = usePathname()
@@ -24,7 +24,7 @@ export default function Search({placeholder}) {
     }, 300)
 
     return (
-        <div className={"search"}>
+        <div className={"search"} style={{width:width}}>
             <MagnifyingGlassIcon className={"search-icon"}/>
             <input className={"search-input"}
                 placeholder={placeholder}

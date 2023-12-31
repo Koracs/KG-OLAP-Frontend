@@ -3,6 +3,16 @@ import {useState} from "react";
 import {executeQuery} from "@/app/lib/queryaction";
 import CodeEditor from "@uiw/react-textarea-code-editor";
 import styles from "../app/globals.css" //used for theme change of code editor
+import { useFormStatus } from "react-dom";
+
+function Submit() {
+    const { pending } = useFormStatus();
+    return (
+        <button type="submit" disabled={pending} className={"button"}>
+            {pending ? "Submitting..." : "Submit"}
+        </button>
+    );
+}
 
 export default function QueryWindow() {
     const [error, setError] = useState("");
@@ -49,7 +59,8 @@ export default function QueryWindow() {
                     <label htmlFor="testMode">Test Mode </label>
                     <input type="checkbox" name="testMode" value="testMode"/>
                 </div>
-                <button type="submit" className={"button"}>Submit</button>
+                <Submit/>
+                {/*<button type="submit" className={"button"}>Submit</button>*/}
             </form>
         </div>
     );
