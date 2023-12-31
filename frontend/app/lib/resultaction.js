@@ -5,6 +5,7 @@ import {redisClient} from "@/app/redis";
 import {revalidatePath} from "next/cache";
 import {redirect} from "next/navigation";
 import {executeQuery} from "@/app/lib/queryaction";
+import {isRedirectError} from "next/dist/client/components/redirect";
 
 export async function deleteResult(uuid) {
     try {
@@ -36,7 +37,8 @@ export async function rerunResult(uuid) {
         //run query again
         await executeQuery(result.queryText, result.testMode, uuid);
     } catch (error) {
-        console.error(error);
+        if(isRedirectError(error)) return;
+        else console.error(error);
     }
 
     revalidatePath("/results")

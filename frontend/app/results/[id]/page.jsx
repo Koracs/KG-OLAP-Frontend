@@ -1,8 +1,8 @@
-import ResultItem from "@/components/resultItem";
 import prisma from "@/app/db";
 import Breadcrumbs from "@/components/breadcrumbs";
 import Link from "next/link";
 import {deleteResult, rerunResult} from "@/app/lib/resultaction";
+import ReRunButton from "@/components/ReRunButton";
 
 export default async function ResultPage({params}) {
     const result = await prisma.QueryResult.findUnique({where: {id: params?.id}});
@@ -64,7 +64,8 @@ export default async function ResultPage({params}) {
             </div>
             <br/>
             <form>
-                <button formAction={rerunAction} className={"button result-link"}>Re-Run Query</button>
+                {/*<button formAction={rerunAction} className={"button result-link"}>Re-Run Query</button>*/}
+                <ReRunButton className={"button result-link"} rerunAction={rerunAction}/>
                 <button formAction={deleteAction}
                         className={"button error-button result-link"}>Delete Result
                 </button>
