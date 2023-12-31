@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {deleteResult, rerunResult} from "@/app/lib/resultaction";
+import ReRunButton from "@/components/ReRunButton";
 
 export default function ResultItem({uuid, queryText, lastUpdate, testMode}) {
 
@@ -22,7 +23,7 @@ export default function ResultItem({uuid, queryText, lastUpdate, testMode}) {
             <Link className={"button resultitem-table"} href={`/results/${uuid}/table`}>Show Table</Link>
             <Link className={"button resultitem-contexts"} href={`/results/${uuid}/contexts`}>Show Contexts</Link>
             <Link className={"button resultitem-metrics"} href={`/results/${uuid}/metrics`}>Show Metrics</Link>
-            <button formAction={rerunAction} className={"button resultitem-rerun"}>Re-Run Query</button>
+            <ReRunButton rerunAction={rerunAction} className={"button resultitem-rerun"}/>
             <button formAction={deleteAction} className={"button error-button resultitem-delete"}>Delete</button>
         </form>
     )
