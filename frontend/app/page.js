@@ -1,6 +1,9 @@
-import graph from "@/app/public/graph.svg";
-import Image from "next/image";
-import LandingForceGraph from "@/components/LandingForceGraph";
+import LandingGraph from "@/components/LandingGraph";
+import AuthStatus from "@/components/authstatus";
+import CodeEditor from "@uiw/react-textarea-code-editor";
+import QueryWindow from "@/components/queryWindow";
+import LandingCodeEditor from "@/components/LandingCodeEditor";
+import LandingResultItem from "@/components/LandingResultItem";
 
 export default function Home() {
     return (
@@ -10,9 +13,9 @@ export default function Home() {
                     <h1>Big-KG OLAP</h1>
                     <h2>Query Frontend</h2>
                 </div>
-                <Image src={graph} alt={"Graph"} width={250} height={250}/>
+                <LandingGraph/>
             </div>
-            <div style={{width: "70%", margin: "auto", textAlign: "justify"}}>
+            <div style={{width: "60%", margin: "auto", textAlign: "justify"}}>
                 <h2>Big-KG OLAP</h2>
                 <p>Big-KG OLAP is a framework for knowledge graph OLAP systems, where the user can ingest vast amount of
                     data and then perform analytics using <strong>SQL-like queries</strong>. The system is based on
@@ -28,21 +31,42 @@ export default function Home() {
                 <h2>Features</h2>
                 <br/>
                 <h3>Login / Authentication</h3>
-                <p>The interface should provide the user with a login page, and using the backend RESTful API it should
-                    allow the user to authenticate. For every request from
-                    the client the UI will include the proper security header establish when the user logged in.
+                <p>This Application uses <strong>Keycloak</strong> as an authentication server.
+                    Through <strong>NextAuth.js</strong>, the user can login
+                    to create a Keycloak session and then use the application.
                 </p>
                 <br/>
+                <div className={"navBar"} style={{margin: "auto", width: "fit-content"}}>
+                    <ul>
+                        <AuthStatus/>
+                    </ul>
+                </div>
+                <br/>
                 <h3>Query IDE</h3>
-                <p>The backend allows the user to query using special queries, the UI should be able to parse and
-                    validate given queries by the user, pass them on
-                    the backend system and show the result upon arrival. All done via RESTful API request to the backend
-                    system.</p>
+                <p>The KG-OLAP backend allows the user to query using <strong>SQL-Like queries</strong>.
+                    Through this frontend application, queries are parsed, validated and passed on to the backend
+                    system.
+                    These results are then stored in a <strong>Redis cache</strong> and displayed upon arrival.
+                </p>
+                <br/>
+                    <LandingCodeEditor/>
                 <br/>
                 <h3>Display Query Results</h3>
-                <p>The backend system keeps matric information about the activities of the whole system, the UI should
-                    retrieve
-                    these information and display it in a nice way.</p>
+                <p>After receiving a query, the backend system returns the requested data and information such as
+                    performance timestamps and result file sizes.
+                    These results are displayed in various ways.
+                    <br/>
+                    The user can view the results in a <strong>table</strong>, list the <strong>contexts of the
+                        results</strong>, or view the results of a
+                    given context as a <strong>graph</strong>. The graph is rendered using <strong>D3.js</strong> and
+                    is <strong>pre-rendered on the server</strong>.
+                    The result metrics are also displayed to the user.
+                    <br/>
+                    The results, which are stored in a <strong>Redis cache</strong>, can
+                    be <strong>re-executed</strong> with the original query to view the newest results again.
+                </p>
+                <br/>
+                <LandingResultItem/>
             </div>
 
         </>

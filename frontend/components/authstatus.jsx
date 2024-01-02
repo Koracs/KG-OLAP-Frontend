@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link";
-import {signOut, useSession} from "next-auth/react";
+import {signIn, signOut, useSession} from "next-auth/react";
 import {useEffect} from "react";
 
 export default function AuthStatus() {
@@ -21,8 +21,8 @@ export default function AuthStatus() {
         <>
             {session? <li><span> {session?.user.name}</span></li> : <></>}
             <li>
-                {session? <Link href="/api/auth/signout?callbackUrl=/">Sign out</Link>
-                    : <Link href="/api/auth/signin">Sign in</Link>}
+                {session? <button className={"authStatus"} onClick={() => signOut()}>Sign out</button>
+                    : <button className={"authStatus"} onClick={() => signIn()}>Sign in</button>}
             </li>
         </>
     );
