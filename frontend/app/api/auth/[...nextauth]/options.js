@@ -27,11 +27,13 @@ async function refreshAccessToken(token) {
 }
 
 export const options = {
+    debug: true,
     providers: [
         KeycloakProvider({
             clientId: process.env.KEYCLOAK_ID,
             clientSecret: process.env.KEYCLOAK_SECRET,
             issuer: process.env.KEYCLOAK_ISSUER,
+            wellKnown: process.env.KEYCLOAK_WELLKNOWN
         })
     ],
     callbacks: {
@@ -80,4 +82,5 @@ export const options = {
         }
     },
     secret: process.env.NEXTAUTH_SECRET
+
 }
