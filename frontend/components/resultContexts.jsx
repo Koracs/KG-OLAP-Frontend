@@ -1,4 +1,4 @@
-import {fetchContextQuadCount, fetchContexts} from "@/app/lib/data";
+import {fetchContextQuadCount, fetchContexts} from "@/app/_lib/data";
 import Link from "next/link";
 
 export default async function ResultContexts({uuid, query, currentPage}) {

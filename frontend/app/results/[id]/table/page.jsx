@@ -1,6 +1,6 @@
 import Search from "@/components/search";
 import ResultTable from "@/components/resultTable";
-import {fetchResultPages} from "@/app/lib/data";
+import {fetchResultPages} from "@/app/_lib/data";
 import Pagination from "@/components/pagination";
 import {Suspense} from "react";
 import Breadcrumbs from "@/components/breadcrumbs";

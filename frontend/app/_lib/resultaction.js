@@ -4,7 +4,7 @@ import prisma from '../db'
 import {redisClient} from "@/app/redis";
 import {revalidatePath} from "next/cache";
 import {redirect} from "next/navigation";
-import {executeQuery} from "@/app/lib/queryaction";
+import {executeQuery} from "@/app/_lib/queryaction";
 import {isRedirectError} from "next/dist/client/components/redirect";
 
 export async function deleteResult(uuid) {

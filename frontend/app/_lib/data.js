@@ -62,3 +62,11 @@ export async function fetchResultPages(uuid, context) {
 
     return Math.ceil(quadCount / QUADS_PER_PAGE);
 }
+
+export async function fetchAllResultItems() {
+    return await prisma.QueryResult.findMany({orderBy: {updatedAt: "asc"}});
+}
+
+export async function fetchResultItem(uuid) {
+    return await prisma.QueryResult.findUnique({where: {id: uuid}});
+}

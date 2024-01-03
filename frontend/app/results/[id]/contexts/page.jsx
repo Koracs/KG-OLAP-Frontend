@@ -1,6 +1,6 @@
 import Breadcrumbs from "../../../../components/breadcrumbs";
 import ResultContexts from "@/components/resultContexts";
-import {fetchContextPages} from "@/app/lib/data";
+import {fetchContextPages} from "@/app/_lib/data";
 import Search from "@/components/search";
 import {Suspense} from "react";
 import Pagination from "@/components/pagination";

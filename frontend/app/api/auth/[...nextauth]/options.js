@@ -33,7 +33,7 @@ export const options = {
             clientId: process.env.KEYCLOAK_ID,
             clientSecret: process.env.KEYCLOAK_SECRET,
             issuer: process.env.KEYCLOAK_ISSUER,
-            wellKnown: process.env.KEYCLOAK_WELLKNOWN
+            // wellKnown: process.env.KEYCLOAK_WELLKNOWN
         })
     ],
     callbacks: {

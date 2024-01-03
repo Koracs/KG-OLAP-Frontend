@@ -1,9 +1,10 @@
+export const dynamic = 'force-dynamic';
 import ResultItem from "../../components/resultItem";
-import prisma from "../db";
 import Breadcrumbs from "../../components/breadcrumbs";
+import {fetchAllResultItems} from "@/app/_lib/data";
 
 export default async function ResultOverview() {
-    const results = await prisma.QueryResult.findMany({orderBy: {updatedAt: "asc"}})
+    const results = await fetchAllResultItems();
 
     return (
         <>

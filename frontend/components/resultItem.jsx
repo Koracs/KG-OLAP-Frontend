@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {deleteResult, rerunResult} from "@/app/lib/resultaction";
+import {deleteResult, rerunResult} from "@/app/_lib/resultaction";
 import ReRunButton from "@/components/ReRunButton";
 
 export default function ResultItem({uuid, queryText, lastUpdate, testMode}) {

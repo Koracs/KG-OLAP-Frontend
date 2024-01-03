@@ -1,4 +1,4 @@
-import {fetchFilteredQuads} from "@/app/lib/data";
+import {fetchFilteredQuads} from "@/app/_lib/data";
 
 export default async function ResultTable({uuid, query, currentPage, context}){
     const quads = await fetchFilteredQuads(uuid, query, currentPage, context);

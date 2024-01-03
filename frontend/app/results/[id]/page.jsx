@@ -1,11 +1,11 @@
-import prisma from "@/app/db";
 import Breadcrumbs from "@/components/breadcrumbs";
 import Link from "next/link";
-import {deleteResult, rerunResult} from "@/app/lib/resultaction";
+import {deleteResult, rerunResult} from "@/app/_lib/resultaction";
 import ReRunButton from "@/components/ReRunButton";
+import {fetchResultItem} from "@/app/_lib/data";
 
 export default async function ResultPage({params}) {
-    const result = await prisma.QueryResult.findUnique({where: {id: params?.id}});
+    const result = await fetchResultItem(params.id);
 
     const quad_count = result?.quad_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     const context_count = result?.context_count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -64,7 +64,6 @@ export default async function ResultPage({params}) {
             </div>
             <br/>
             <form>
-                {/*<button formAction={rerunAction} className={"button result-link"}>Re-Run Query</button>*/}
                 <ReRunButton className={"button result-link"} rerunAction={rerunAction}/>
                 <button formAction={deleteAction}
                         className={"button error-button result-link"}>Delete Result

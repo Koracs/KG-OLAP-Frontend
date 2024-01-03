@@ -1,6 +1,6 @@
 "use client"
 import {useState} from "react";
-import {executeQuery} from "@/app/lib/queryaction";
+import {executeQuery} from "@/app/_lib/queryaction";
 import CodeEditor from "@uiw/react-textarea-code-editor";
 import styles from "../app/globals.css" //used for theme change of code editor
 import { useFormStatus } from "react-dom";

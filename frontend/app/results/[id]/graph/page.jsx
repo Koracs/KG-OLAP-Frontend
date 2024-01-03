@@ -1,7 +1,4 @@
-import preRenderGraph from "../../../lib/pre-render-graph";
 import Breadcrumbs from "../../../../components/breadcrumbs";
-import {fetchAllQuads} from "@/app/lib/data";
-import SvgViewer from "@/components/svgViewer";
 import PreRenderedGraph from "@/components/preRenderedGraph";
 import {Suspense} from "react";
 

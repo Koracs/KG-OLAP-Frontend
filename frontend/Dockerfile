@@ -24,10 +24,8 @@ COPY . .
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED 1
-ARG REDIS_URL
-ENV REDIS_URL $REDIS_URL
 
-RUN npx prisma migrate deploy
+#RUN npx prisma migrate deploy
 RUN npm run build
 
 # Production image, copy all the files and run next

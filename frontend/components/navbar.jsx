@@ -1,6 +1,7 @@
 import Link from "next/link";
 import AuthStatus from "./authstatus";
 import ThemeChanger from "./themechanger";
+import ServerAuthStatus from "@/components/serverAuth";
 
 export default function NavBar() {
 

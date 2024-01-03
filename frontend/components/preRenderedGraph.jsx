@@ -1,5 +1,5 @@
-import {fetchAllQuads} from "@/app/lib/data";
-import preRenderGraph from "@/app/lib/pre-render-graph";
+import {fetchAllQuads} from "@/app/_lib/data";
+import preRenderGraph from "@/app/_lib/pre-render-graph";
 import SvgViewer from "@/components/svgViewer";
 
 export default async function PreRenderedGraph({uuid, context}) {
