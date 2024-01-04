@@ -1,11 +1,11 @@
 import KeycloakProvider from "next-auth/providers/keycloak";
+import GithubProvider from "next-auth/providers/github";
 import {console} from "next/dist/compiled/@edge-runtime/primitives";
-import {signOut} from "next-auth/react";
 
 
 async function refreshAccessToken(token) {
     const resp = await fetch(`${process.env.KEYCLOAK_REFRESH_TOKEN_URL}`, {
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
         body: new URLSearchParams({
             client_id: process.env.KEYCLOAK_ID,
             client_secret: process.env.KEYCLOAK_SECRET,
@@ -29,13 +29,17 @@ async function refreshAccessToken(token) {
 export const options = {
     debug: true,
     providers: [
+        GithubProvider({
+            clientId: process.env.GITHUB_ID,
+            clientSecret: process.env.GITHUB_SECRET,
+        }),
         KeycloakProvider({
             clientId: process.env.KEYCLOAK_ID,
             clientSecret: process.env.KEYCLOAK_SECRET,
             issuer: process.env.KEYCLOAK_ISSUER,
-            // wellKnown: process.env.KEYCLOAK_WELLKNOWN
+            //wellKnown: process.env.KEYCLOAK_WELLKNOWN
         })
-    ],
+    ],/*
     callbacks: {
         async jwt({token, account}) {
             const nowTimeStamp = Math.floor(Date.now() / 1000);
@@ -63,24 +67,26 @@ export const options = {
             }
         },
         async session({session, token}) {
-            session.access_token = token.access_token;
-            session.id_token = token.id_token;
-            session.error = token.error;
-            return session;
+                session.access_token = token.access_token;
+                session.id_token = token.id_token;
+                session.error = token.error;
+                return session;
         },
     },
     events: {
         async signOut({token}) {
-            try {
-                const logOutUrl = new URL(`${process.env.END_SESSION_URL}`);
-                logOutUrl.searchParams.set("id_token_hint", token.id_token);
+            if (token) {
+                try {
+                    const logOutUrl = new URL(`${process.env.END_SESSION_URL}`);
+                    logOutUrl.searchParams.set("id_token_hint", token.id_token);
 
-                await fetch(logOutUrl);
-            } catch (err) {
-                console.error(err);
+                    await fetch(logOutUrl);
+                } catch (err) {
+                    console.error(err);
+                }
             }
         }
-    },
+    },*/
     secret: process.env.NEXTAUTH_SECRET
 
 }
