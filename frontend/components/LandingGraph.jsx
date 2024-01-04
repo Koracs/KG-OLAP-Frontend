@@ -1,4 +1,4 @@
-import graph from "@/app/public/graph.svg";
+import graph from "@/public/graph.svg";
 import Image from "next/image";
 
 export default function LandingGraph() {

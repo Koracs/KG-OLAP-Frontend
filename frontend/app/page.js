@@ -1,7 +1,5 @@
 import LandingGraph from "@/components/LandingGraph";
 import AuthStatus from "@/components/authstatus";
-import CodeEditor from "@uiw/react-textarea-code-editor";
-import QueryWindow from "@/components/queryWindow";
 import LandingCodeEditor from "@/components/LandingCodeEditor";
 import LandingResultItem from "@/components/LandingResultItem";
 
