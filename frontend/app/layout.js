@@ -1,7 +1,7 @@
 import {Inter} from 'next/font/google'
 import './globals.css'
-import NavBar from "../components/navbar";
-import {Providers} from "@/components/providers";
+import NavBar from "../components/ui/NavBar";
+import {Providers} from "@/components/ui/Providers";
 import NextTopLoader from "nextjs-toploader";
 
 const inter = Inter({subsets: ['latin']})

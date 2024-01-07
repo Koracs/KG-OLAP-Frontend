@@ -1,6 +1,6 @@
 import {fetchAllQuads} from "@/app/_lib/data";
 import preRenderGraph from "@/app/_lib/pre-render-graph";
-import SvgViewer from "@/components/svgViewer";
+import SvgViewer from "@/components/results/SvgViewer";
 
 export default async function PreRenderedGraph({uuid, context}) {
     const quads = await fetchAllQuads(uuid, context);

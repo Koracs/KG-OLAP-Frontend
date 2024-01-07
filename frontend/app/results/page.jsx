@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic';
-import ResultItem from "../../components/resultItem";
-import Breadcrumbs from "../../components/breadcrumbs";
+import ResultItem from "../../components/results/ResultItem";
+import Breadcrumbs from "../../components/ui/Breadcrumbs";
 import {fetchAllResultItems} from "@/app/_lib/data";
 
 export default async function ResultOverview() {

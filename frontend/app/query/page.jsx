@@ -1,5 +1,5 @@
 
-import QueryWindow from "@/components/queryWindow";
+import QueryWindow from "@/components/query/QueryWindow";
 
 export default async function QueryPage() {
 

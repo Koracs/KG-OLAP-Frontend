@@ -1,9 +1,9 @@
-import Breadcrumbs from "../../../../components/breadcrumbs";
-import ResultContexts from "@/components/resultContexts";
+import Breadcrumbs from "../../../../components/ui/Breadcrumbs";
+import ResultContexts from "@/components/results/ResultContexts";
 import {fetchContextPages} from "@/app/_lib/data";
-import Search from "@/components/search";
+import Search from "@/components/ui/Search";
 import {Suspense} from "react";
-import Pagination from "@/components/pagination";
+import Pagination from "@/components/ui/Pagination";
 
 export default async function ContextsPage({params, searchParams}) {
     const query = searchParams?.query || '';

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import AuthStatus from "./authstatus";
-import ThemeChanger from "./themechanger";
+import AuthStatus from "./AuthStatus";
+import ThemeChanger from "./ThemeChanger";
 
 export default function NavBar() {
 

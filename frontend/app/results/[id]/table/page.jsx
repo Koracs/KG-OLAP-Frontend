@@ -1,9 +1,9 @@
-import Search from "@/components/search";
-import ResultTable from "@/components/resultTable";
+import Search from "@/components/ui/Search";
+import ResultTable from "@/components/results/ResultTable";
 import {fetchResultPages} from "@/app/_lib/data";
-import Pagination from "@/components/pagination";
+import Pagination from "@/components/ui/Pagination";
 import {Suspense} from "react";
-import Breadcrumbs from "@/components/breadcrumbs";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import Link from "next/link";
 
 export default async function QueryResult({params, searchParams}) {

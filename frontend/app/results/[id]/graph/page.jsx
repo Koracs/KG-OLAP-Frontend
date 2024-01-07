@@ -1,5 +1,5 @@
-import Breadcrumbs from "../../../../components/breadcrumbs";
-import PreRenderedGraph from "@/components/preRenderedGraph";
+import Breadcrumbs from "../../../../components/ui/Breadcrumbs";
+import PreRenderedGraph from "@/components/results/PreRenderedGraph";
 import {Suspense} from "react";
 
 export default async function ResultGraphPage({params, searchParams}) {

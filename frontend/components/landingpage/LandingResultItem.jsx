@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 export default function LandingResultItem() {
     const uuid = "My-Latest-Query-Result";
     const queryText = "SELECT time_month=2000-01 AND location_territory=France ROLLUP ON topic_all, location_all, time_all";

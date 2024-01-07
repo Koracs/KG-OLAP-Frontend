@@ -1,7 +1,7 @@
-import Breadcrumbs from "@/components/breadcrumbs";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import Link from "next/link";
 import {deleteResult, rerunResult} from "@/app/_lib/resultaction";
-import ReRunButton from "@/components/ReRunButton";
+import ReRunButton from "@/components/ui/ReRunButton";
 import {fetchResultItem} from "@/app/_lib/data";
 
 export default async function ResultPage({params}) {

@@ -1,5 +1,5 @@
-import ResultMetrics from "../../../../components/resultMetrics";
-import Breadcrumbs from "../../../../components/breadcrumbs";
+import ResultMetrics from "../../../../components/results/ResultMetrics";
+import Breadcrumbs from "../../../../components/ui/Breadcrumbs";
 
 export default async function MetricsPage({params}) {
 

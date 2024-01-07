@@ -1,7 +1,7 @@
-import LandingGraph from "@/components/LandingGraph";
-import AuthStatus from "@/components/authstatus";
-import LandingCodeEditor from "@/components/LandingCodeEditor";
-import LandingResultItem from "@/components/LandingResultItem";
+import LandingGraph from "@/components/landingpage/LandingGraph";
+import AuthStatus from "@/components/ui/AuthStatus";
+import LandingCodeEditor from "@/components/landingpage/LandingCodeEditor";
+import LandingResultItem from "@/components/landingpage/LandingResultItem";
 
 export default function Home() {
     return (
