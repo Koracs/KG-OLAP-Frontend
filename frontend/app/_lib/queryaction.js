@@ -118,7 +118,7 @@ async function getKGData(uuid, queryString) {
     if (response.ok) {
         const metrics = JSON.parse(await response.text())
         await addResultMetrics(uuid, metrics);
-        const fileResponse = await fetch(file_url + `?fileName=${metrics.filename}`,
+        const fileResponse = await fetch(file_url + `?fileUuid=${metrics.filename}`,
             {
                 method: 'GET',
                 headers: headers,
