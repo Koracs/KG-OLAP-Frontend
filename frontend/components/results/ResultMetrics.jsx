@@ -7,29 +7,113 @@ export default async function ResultMetrics({uuid}) {
         }
     });
 
-    const total_time = (results?.ts_end - results?.ts_start) / 1000;
-    const build_time = (results?.ts_3 - results?.ts_2) / 1000;
-    const context_time = (results?.ts_2 - results?.ts_0) / 1000;
+    const total_time = (results?.ts_end - results?.ts_start);
+    const build_time = (results?.ts_3 - results?.ts_2);
+    const context_time = (results?.ts_2 - results?.ts_0);
 
-    return(
+    return (
         <>
-        {results?.testMode? <h2 style={{color:"var(--error-color)"}}>Test Mode Query!</h2> : <></>}
-        <div>
-            <p>Start time: {results?.ts_start.toLocaleString()}</p>
-            <p>merge operation finished: {results?.ts_0.toLocaleString()}</p>
-            <p>specific context info retrieved: {results?.ts_1.toLocaleString()}</p>
-            <p>general context info: {results?.ts_2.toLocaleString()}</p>
-            <p>rdf cube built: {results?.ts_3.toLocaleString()}</p>
-            <p>cleanup finished: {results?.ts_end.toLocaleString()}</p>
+            {results?.testMode ? <h2 style={{color: "var(--error-color)"}}>Test Mode Query!</h2> : null}
             <br/>
-            <p>context_count: {results?.context_count}</p>
-            <p>quad_count: {results?.quad_count}</p>
-            <p>char_count: {results?.char_count}</p>
+            <h2>Query Timestamps</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Step</th>
+                    <th>Timestamp</th>
+                    <th>Unix Timestamp</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>Start Time</th>
+                    <td>{results?.ts_start.toLocaleString()}</td>
+                    <td>{results?.ts_start.getTime()}</td>
+                </tr>
+                <tr>
+                    <th>Merge Operation Finished</th>
+                    <td>{results?.ts_0.toLocaleString()}</td>
+                    <td>{results?.ts_0.getTime()}</td>
+                </tr>
+                <tr>
+                    <th>Specific Context Info Retrieved</th>
+                    <td>{results?.ts_1.toLocaleString()}</td>
+                    <td>{results?.ts_1.getTime()}</td>
+                </tr>
+                <tr>
+                    <th>General Context Info</th>
+                    <td>{results?.ts_2.toLocaleString()}</td>
+                    <td>{results?.ts_2.getTime()}</td>
+                </tr>
+                <tr>
+                    <th>Rdf Cube Built</th>
+                    <td>{results?.ts_3.toLocaleString()}</td>
+                    <td>{results?.ts_3.getTime()}</td>
+                </tr>
+                <tr>
+                    <th>Cleanup Finished</th>
+                    <td>{results?.ts_end.toLocaleString()}</td>
+                    <td>{results?.ts_end.getTime()}</td>
+                </tr>
+                </tbody>
+            </table>
             <br/>
-            <p>total time (seconds): {total_time}</p>
-            <p>build time (seconds): {build_time}</p>
-            <p>context time (seconds): {context_time}</p>
-        </div>
+            <h2>Query Times</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Step</th>
+                    <th>Time (s)</th>
+                    <th>Time (ms)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>Build Time</th>
+                    <td>{build_time / 1000}</td>
+                    <td>{build_time}</td>
+                </tr>
+                <tr>
+                    <th>Context Time</th>
+                    <td>{context_time / 1000}</td>
+                    <td>{context_time}</td>
+                </tr>
+                <tr>
+                    <th>Total Time</th>
+                    <td>{total_time / 1000}</td>
+                    <td>{total_time}</td>
+                </tr>
+                </tbody>
+            </table>
+            <br/>
+            <h2>Result Information</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Information</th>
+                    <th>Value</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+                    <th>Context Count</th>
+                    <td>{results?.context_count}</td>
+                </tr>
+                <tr>
+                    <th>Quad Count</th>
+                    <td>{results?.quad_count}</td>
+                </tr>
+                <tr>
+                    <th>Char Count</th>
+                    <td>{results?.char_count}</td>
+                </tr>
+                <tr>
+                    <th>File UUID</th>
+                    <td>{results?.filename}</td>
+                </tr>
+                </tbody>
+            </table>
         </>
     )
 }

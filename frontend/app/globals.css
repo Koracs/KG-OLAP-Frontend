@@ -358,10 +358,15 @@ tr:hover {background-color: var(--hover-color);}
     grid-gap: 1rem;
 }
 
+.contexts-head {
+    font-size: 1.125rem;
+    font-weight: bold;
+    margin: auto;
+}
+
 .contextLink {
     padding: 15px;
-    text-align: center;
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
 }
 
 .context-search {

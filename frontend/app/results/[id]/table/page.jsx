@@ -22,7 +22,7 @@ export default async function QueryResult({params, searchParams}) {
                 },
                 {
                     label: 'Table',
-                    href: `/results/${params?.id}/Table`,
+                    href: `/results/${params?.id}/table`,
                     active: true,
                 }
             ]}/>

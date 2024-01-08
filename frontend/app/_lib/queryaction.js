@@ -58,6 +58,7 @@ function addResultMetrics(uuid, resultMetrics) {
             context_count: resultMetrics.context_count,
             quad_count: resultMetrics.quad_count,
             char_count: resultMetrics.char_count,
+            filename: resultMetrics.filename
         }
     }).then((result) => {
         return result.id;

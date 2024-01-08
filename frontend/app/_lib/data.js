@@ -3,6 +3,7 @@ import prisma from "@/app/db";
 
 const QUADS_PER_PAGE = 20;
 const CONTEXTS_PER_PAGE = 10;
+
 export async function fetchFilteredQuads(uuid, query, currentPage, context) {
     const start = (currentPage - 1) * QUADS_PER_PAGE;
     const end = start + QUADS_PER_PAGE - 1;
@@ -34,31 +35,40 @@ export async function fetchAllQuads(uuid, context) {
 export async function fetchContexts(uuid, query, currentPage) {
     const start = (currentPage - 1) * CONTEXTS_PER_PAGE;
     const end = start + CONTEXTS_PER_PAGE;
-    const contexts = await redisClient.sScan(uuid + ":contexts", 0, {MATCH: "*"+query+"*"}).then((result) => {
-        return result.members
-    });
+    let contexts = [];
+    await scanRedisSet(0, uuid, query, contexts);
 
     return contexts.slice(start, end);
 }
 
 export async function fetchContextQuadCount(uuid, context) {
     const key = uuid + ":" + context;
-    const quadCount =  await redisClient.LLEN(key);
+    const quadCount = await redisClient.LLEN(key);
 
     return quadCount;
 }
 
 export async function fetchContextPages(uuid, query) {
-    const contexts = await redisClient.sScan(uuid + ":contexts", 0, {MATCH: "*"+query+"*"}).then((result) => {
-        return result.members
-    });
+    let contexts = [];
+    await scanRedisSet(0, uuid, query, contexts);
+    return Math.ceil(contexts?.length / CONTEXTS_PER_PAGE);
+}
 
-    return Math.ceil(contexts?.length / QUADS_PER_PAGE);
+function scanRedisSet(cursor, uuid, query, returnSet) {
+    return redisClient.sScan(uuid + ":contexts", cursor, {MATCH: "*" + query + "*"}).then((result) => {
+        cursor = result.cursor;
+        returnSet.push(...result.members);
+        if (cursor === 0) {
+            return returnSet;
+        } else {
+            return scanRedisSet(cursor, uuid, query, returnSet)
+        }
+    });
 }
 
 export async function fetchResultPages(uuid, context) {
     const key = context ? uuid + ":" + context : uuid;
-    const quadCount =  await redisClient.LLEN(key);
+    const quadCount = await redisClient.LLEN(key);
 
     return Math.ceil(quadCount / QUADS_PER_PAGE);
 }

@@ -25,4 +25,5 @@ model QueryResult {
   context_count Int?
   quad_count    Int?
   char_count    Int?
+  filename      String?
 }

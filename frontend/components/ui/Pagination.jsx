@@ -51,7 +51,7 @@ export default function Pagination({totalPages}) {
     const allPages = generatePagination(currentPage, totalPages)
 
     return (
-        <div style={{display:"inline-flex"}}>
+        <div style={{display:"inline-flex", marginBottom:"1rem"}}>
             <PaginationArrow
                 direction="left"
                 href={createPageURL(currentPage - 1)}

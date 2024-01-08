@@ -63,6 +63,8 @@ export default async function ResultPage({params}) {
                 </div>
             </div>
             <br/>
+            <h2>Manage Result</h2>
+            <br/>
             <form>
                 <ReRunButton className={"button result-link"} rerunAction={rerunAction}/>
                 <button formAction={deleteAction}

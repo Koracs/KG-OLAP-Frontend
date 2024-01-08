@@ -11,11 +11,14 @@ export default async function ResultContexts({uuid, query, currentPage}) {
 
     return (
         <div className={"contexts"}>
+            <p className={"contexts-head"}>Context</p>
+            <p className={"contexts-head"}>Quad Count</p>
+            <p className={"contexts-head"}>Graph Link</p>
             {contexts.map((context) => {
                 return (
                     <>
                         <Link key={context} className={"button contextLink"} href={`/results/${uuid}/table?context=${context}`}>{context}</Link>
-                        <p className={"context-quads"}>{getContextLength(context)}</p>
+                        <p key={context+"quads"} className={"context-quads"}>{getContextLength(context)}</p>
                         <Link key={context+"graph"} className={"button contextLink"} href={`/results/${uuid}/graph?context=${context}`}>Show Graph</Link>
                     </>
                 )
