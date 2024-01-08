@@ -29,17 +29,13 @@ async function refreshAccessToken(token) {
 export const options = {
     debug: true,
     providers: [
-        GithubProvider({
-            clientId: process.env.GITHUB_ID,
-            clientSecret: process.env.GITHUB_SECRET,
-        }),
         KeycloakProvider({
             clientId: process.env.KEYCLOAK_ID,
             clientSecret: process.env.KEYCLOAK_SECRET,
             issuer: process.env.KEYCLOAK_ISSUER,
             //wellKnown: process.env.KEYCLOAK_WELLKNOWN
         })
-    ],/*
+    ],
     callbacks: {
         async jwt({token, account}) {
             const nowTimeStamp = Math.floor(Date.now() / 1000);
@@ -86,7 +82,7 @@ export const options = {
                 }
             }
         }
-    },*/
+    },
     secret: process.env.NEXTAUTH_SECRET
 
 }
