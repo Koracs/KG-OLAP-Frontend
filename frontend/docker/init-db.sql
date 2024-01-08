@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS kgolap."QueryResult"
     context_count integer,
     quad_count integer,
     char_count integer,
+    "filename" text COLLATE pg_catalog."default",
     "testMode" boolean NOT NULL,
     CONSTRAINT "QueryResult_pkey" PRIMARY KEY (id)
 )
