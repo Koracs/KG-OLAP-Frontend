@@ -2,63 +2,23 @@
 import * as d3 from "d3";
 import jsdom from "jsdom";
 
-export default async function preRenderGraph(triples) {
-    const graphData = triplesToGraph(triples);
-
-    function filterNodesById(nodes, id) {
-        return nodes.filter(function (n) {
-            return n.id === id;
-        });
-    }
-
-    function triplesToGraph(triples) {
-        //Graph
-        var graph = {nodes: [], links: []};
-
-        //Initial Graph from triples
-        triples.forEach(function (triple) {
-            var subjId = triple.subject;
-            var predId = triple.predicate;
-            var objId = triple.object;
-
-            var subjNode = filterNodesById(graph.nodes, subjId)[0];
-            var objNode = filterNodesById(graph.nodes, objId)[0];
-
-            if (subjNode == null) {
-                subjNode = {id: subjId, label: subjId, weight: 1};
-                graph.nodes.push(subjNode);
-            }
-
-            if (objNode == null) {
-                objNode = {id: objId, label: objId, weight: 1};
-                graph.nodes.push(objNode);
-            }
 
 
-            graph.links.push({source: subjNode, target: objNode, predicate: predId, weight: 1});
-        });
-
-        return graph;
-    }
-
-    const {JSDOM} = jsdom;
-
-    const {document} = (new JSDOM('')).window;
-    global.document = document;
-
-    var body = d3.select(document).select("body");
-
-
+export default async function preRenderGraph(quads, width = 640, height = 500, force = -5) {
+    const graphData = triplesToGraph(quads);
     const nodes = graphData.nodes;
     const links = graphData.links;
 
-    const width = 640;
-    const height = 500;
+    const {JSDOM} = jsdom;
+    const {document} = (new JSDOM('')).window;
+    global.document = document;
+
+    const body = d3.select(document).select("body");
 
     // Create a simulation for the given graph
     const simulation = d3.forceSimulation(nodes)
         .force("link", d3.forceLink(links).id((d) => d.id))
-        .force("charge", d3.forceManyBody().strength(-5))
+        .force("charge", d3.forceManyBody().strength(force))
         .force("center", d3.forceCenter(width / 2, height / 2))
         .force("x", d3.forceX(width / 2))
         .force("y", d3.forceY(height / 2))
@@ -79,7 +39,6 @@ export default async function preRenderGraph(triples) {
     //     .attr("stroke", "#000")
     //     .attr("stroke-width", 1)
     //     .attr("d", "M 0,0 L0,500")
-
 
     // Run the simulation to its end, then draw.
     simulation.tick(Math.ceil(Math.log(simulation.alphaMin()) / Math.log(1 - simulation.alphaDecay())));
@@ -118,7 +77,40 @@ export default async function preRenderGraph(triples) {
         .text((d) => d.label);
 
 
-    //fs.writeFileSync("test3.svg", body.node().innerHTML)
-    console.log("Pre-render graph successfully.")
+    // console.log("Pre-render graph successfully.")
     return svg.node().outerHTML;
+}
+
+function triplesToGraph(triples) {
+    const graph = {nodes: [], links: []};
+
+    triples.forEach((triple) => {
+        let subjId = triple.subject;
+        let predId = triple.predicate;
+        let objId = triple.object;
+
+        //check if node already exists
+        let subjNode = filterNodesById(graph.nodes, subjId)[0];
+        let objNode = filterNodesById(graph.nodes, objId)[0];
+
+        if (subjNode == null) {
+            subjNode = {id: subjId, label: subjId, weight: 1};
+            graph.nodes.push(subjNode);
+        }
+
+        if (objNode == null) {
+            objNode = {id: objId, label: objId, weight: 1};
+            graph.nodes.push(objNode);
+        }
+
+        graph.links.push({source: subjNode, target: objNode, predicate: predId, weight: 1});
+    });
+
+    return graph;
+}
+
+function filterNodesById(nodes, id) {
+    return nodes.filter((n)=> {
+        return n.id === id;
+    });
 }

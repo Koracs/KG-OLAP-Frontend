@@ -3,14 +3,11 @@ import {useRef, useState, useEffect} from 'react';
 import {
     INITIAL_VALUE,
     ReactSVGPanZoom,
-    TOOL_NONE,
-    fitSelection,
-    zoomOnViewerCenter,
-    fitToViewer
+    TOOL_NONE
 } from 'react-svg-pan-zoom';
 import {ReactSvgPanZoomLoader} from 'react-svg-pan-zoom-loader'
 
-export default function SvgViewer({svg}) {
+export default function SvgViewer({svg, width, height}) {
     const Viewer = useRef(null);
     const [tool, setTool] = useState(TOOL_NONE)
     const [value, setValue] = useState(INITIAL_VALUE)
@@ -31,7 +28,7 @@ export default function SvgViewer({svg}) {
             <ReactSvgPanZoomLoader svgXML={svg} render={(content) => (
                 <ReactSVGPanZoom
                     ref={Viewer}
-                    width={640} height={500}
+                    width={width} height={height}
                     tool={tool} onChangeTool={setTool}
                     value={value} onChangeValue={setValue}
                     SVGBackground={"transparent"}
@@ -39,7 +36,7 @@ export default function SvgViewer({svg}) {
                     className={"svgViewer"}
                     detectAutoPan={false}
                 >
-                    <svg width={640} height={500}>
+                    <svg width={width} height={height}>
                         {content}
                     </svg>
                 </ReactSVGPanZoom>
