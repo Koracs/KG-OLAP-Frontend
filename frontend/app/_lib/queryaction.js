@@ -145,7 +145,7 @@ async function getTestData(uuid) {
         "prefix": "http://example.org/bigkgolap/atm/",
         "replacement": "atm:"
     }
-    const fileStream = fs.createReadStream("./testData/resultFile.nq");
+    const fileStream = fs.createReadStream("./testData/LargeResult.nq");
     await parseData(uuid, fileStream, prefix);
 }
 
