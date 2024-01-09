@@ -17,7 +17,7 @@ export default function LandingCodeEditor() {
             }}
             padding={15}
             minHeight={100}
-            className={"codeEditor"}
+            className={"code-editor"}
             autoCapitalize={"none"}
             style={{fontSize:"14px"}}
         />

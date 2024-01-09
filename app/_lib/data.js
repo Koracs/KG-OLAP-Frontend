@@ -27,9 +27,7 @@ export async function fetchFilteredQuads(uuid, query, currentPage, context) {
 export async function fetchAllQuads(uuid, context) {
     const key = uuid + ":" + context;
     const quads = await redisClient.lRange(key, 0, -1);
-    const result = quads.map((item) => JSON.parse(item));
-
-    return result;
+    return quads.map((item) => JSON.parse(item));
 }
 
 export async function fetchContexts(uuid, query, currentPage) {
@@ -43,9 +41,7 @@ export async function fetchContexts(uuid, query, currentPage) {
 
 export async function fetchContextQuadCount(uuid, context) {
     const key = uuid + ":" + context;
-    const quadCount = await redisClient.LLEN(key);
-
-    return quadCount;
+    return await redisClient.LLEN(key);
 }
 
 export async function fetchContextPages(uuid, query) {

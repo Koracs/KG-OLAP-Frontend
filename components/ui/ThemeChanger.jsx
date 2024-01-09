@@ -16,8 +16,8 @@ export default function ThemeChanger() {
     }
     return (
             <li>
-                <button className={"themeChanger"} title={"Toggle Dark / Light Mode"}
-                    onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+                <button className={"theme-changer"} title={"Toggle Dark / Light Mode"}
+                        onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
                     {theme !== "dark" ? (
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

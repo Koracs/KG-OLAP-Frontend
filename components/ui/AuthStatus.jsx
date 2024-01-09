@@ -20,8 +20,8 @@ export default function AuthStatus() {
         <>
             {session? <li><span> {session?.user.name}</span></li> : <></>}
             <li>
-                {session? <button className={"authStatus"} onClick={() => signOut({ callbackUrl: "/" })}>Sign out</button>
-                    : <button className={"authStatus"} onClick={() => signIn("keycloak")}>Sign in</button>}
+                {session? <button className={"auth-status"} onClick={() => signOut({ callbackUrl: "/" })}>Sign out</button>
+                    : <button className={"auth-status"} onClick={() => signIn("keycloak")}>Sign in</button>}
             </li>
         </>
     );

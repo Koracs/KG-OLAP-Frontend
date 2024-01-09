@@ -50,11 +50,11 @@ export default function QueryWindow() {
                 }}
                 padding={15}
                 minHeight={100}
-                className={"codeEditor"}
+                className={"code-editor"}
                 autoCapitalize={"none"}
             />
-            {error && (<div className={"errorMessage"}>{error}</div>)}
-            <form action={clientAction} className={"queryWindow"}>
+            {error && (<div className={"error-message"}>{error}</div>)}
+            <form action={clientAction} className={"query-window"}>
                 <div style={{alignSelf:"center"}}>
                     <label htmlFor="testMode">Test Mode </label>
                     <input type="checkbox" name="testMode" value="testMode"/>

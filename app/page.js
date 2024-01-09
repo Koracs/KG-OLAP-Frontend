@@ -34,7 +34,7 @@ export default function Home() {
                     to create a Keycloak session and then use the application.
                 </p>
                 <br/>
-                <div className={"navBar"} style={{margin: "auto", width: "fit-content"}}>
+                <div className={"nav-bar"} style={{margin: "auto", width: "fit-content"}}>
                     <ul>
                         <AuthStatus/>
                     </ul>

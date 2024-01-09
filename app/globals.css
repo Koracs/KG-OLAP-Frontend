@@ -51,12 +51,12 @@ h1 {
     margin: 1rem;
 }
 
-.navBar {
+.nav-bar {
     background-color: var(--secondary-color);
     transition: background-color var(--transition);
 }
 
-.navBar ul {
+.nav-bar ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -64,17 +64,17 @@ h1 {
 
 }
 
-.navBar li {
+.nav-bar li {
     float: left;
     border-right: 1px solid var(--border-color);
     font-size: 1.25rem;
 }
 
-.navBar li:last-child {
+.nav-bar li:last-child {
     border-right: none;
 }
 
-.navBar li a, .navBar span {
+.nav-bar li a, .nav-bar span {
     display: block;
     text-align: center;
     padding: 14px 16px;
@@ -85,7 +85,7 @@ h1 {
     font: inherit;
 }
 
-.authStatus {
+.auth-status {
     display: block;
     text-align: center;
     padding: 14px 16px;
@@ -96,12 +96,12 @@ h1 {
     font: inherit;
 }
 
-.navBar li a:hover, .themeChanger:hover {
+.nav-bar li a:hover, .theme-changer:hover {
     background-color: var(--hover-color);
     transition: var(--transition);
 }
 
-.themeChanger {
+.theme-changer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -112,12 +112,12 @@ h1 {
     padding: 0.25rem;
 }
 
-.themeChanger svg {
+.theme-changer svg {
     width: 1.25rem;
     height: 1.25rem;
 }
 
-.queryWindow {
+.query-window {
     width: 50%;
     padding: 10px 0;
     display: flex;
@@ -126,7 +126,7 @@ h1 {
     transition: color, background-color var(--transition);
 }
 
-.queryWindow textarea {
+.query-window textarea {
     width: 50%;
     padding: 5px 10px;
     resize: none;
@@ -137,11 +137,11 @@ h1 {
     margin-bottom: 0;
 }
 
-.queryWindow .button {
+.query-window .button {
     font-size: 1.25rem;
 }
 
-.queryWindow textarea:focus {
+.query-window textarea:focus {
     outline: none;
 }
 
@@ -167,7 +167,7 @@ button:hover, .button:hover {
     background-color: var(--error-secondary-color);
 }
 
-.errorMessage {
+.error-message {
     color: #4f0000;
     padding: 0;
     margin: auto;
@@ -269,7 +269,7 @@ tr:hover {background-color: var(--hover-color);}
     grid-area: delete;
 }
 
-.codeEditor {
+.code-editor {
     margin: auto;
     width: 50%;
     background-color: var(--secondary-color);
