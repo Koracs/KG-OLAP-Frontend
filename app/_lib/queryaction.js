@@ -58,7 +58,7 @@ function createDatabaseEntry(queryString, testMode) {
 /**
  * Adds result metrics to a given database entry
  * @param {string} uuid
- * @param {[]} resultMetrics
+ * @param {{}} resultMetrics
  * @returns {Promise<string>} UUID of the updated entry
  */
 function addResultMetrics(uuid, resultMetrics) {
