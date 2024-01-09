@@ -30,7 +30,7 @@ export default function Home() {
                 <br/>
                 <h3>Login / Authentication</h3>
                 <p>This Application uses <strong>Keycloak</strong> as an authentication server.
-                    Through <strong>NextAuth.js</strong>, the user can login
+                    Through <strong>NextAuth.js</strong>, the user can log in
                     to create a Keycloak session and then use the application.
                 </p>
                 <br/>
