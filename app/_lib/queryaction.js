@@ -6,7 +6,13 @@ import {revalidatePath} from "next/cache";
 import {redisClient} from "../redis";
 import {redirect} from "next/navigation";
 
-
+/**
+ * Executes a given query and stores the results in the database and redis
+ * @param {string} queryString KGOLAP query string
+ * @param {boolean} testMode If true, test data will be used instead of fetching from KGOLAP
+ * @param {string} uuid If given, the results will be stored in the database and redis with this uuid
+ * @returns {Promise<{error}>} Error message if an error occurred, otherwise redirects to the results page
+ */
 export async function executeQuery(queryString, testMode, uuid) {
     try {
         uuid = uuid === undefined ? await createDatabaseEntry(queryString, testMode) : uuid;
@@ -29,6 +35,12 @@ export async function executeQuery(queryString, testMode, uuid) {
     redirect("/results/" + uuid)
 }
 
+/**
+ * Creates a database entry for a given query string
+ * @param {string} queryString
+ * @param {boolean} testMode
+ * @returns {Promise<string>} UUID of the created entry
+ */
 function createDatabaseEntry(queryString, testMode) {
     //create entry in database with query string
     return prisma.queryResult.create({
@@ -43,6 +55,12 @@ function createDatabaseEntry(queryString, testMode) {
     });
 }
 
+/**
+ * Adds result metrics to a given database entry
+ * @param {string} uuid
+ * @param {[]} resultMetrics
+ * @returns {Promise<string>} UUID of the updated entry
+ */
 function addResultMetrics(uuid, resultMetrics) {
     return prisma.queryResult.update({
         where: {
@@ -67,6 +85,10 @@ function addResultMetrics(uuid, resultMetrics) {
     });
 }
 
+/**
+ * Fetches the KGOLAP prefix from the KGOLAP_PREFIX_URL environment variable
+ * @returns {Promise<{prefix: string, replacement: string}>} Prefix and replacement
+ */
 async function getKGPrefix() {
     const prefix_url = process.env.KGOLAP_PREFIX_URL;
     const username = process.env.KGOLAP_USERNAME;
@@ -96,6 +118,12 @@ async function getKGPrefix() {
     }
 }
 
+/**
+ * Fetches the data for a given query from KGOLAP and stores it in the database and redis
+ * @param {string} uuid
+ * @param {string} queryString
+ * @returns {Promise<void>}
+ */
 async function getKGData(uuid, queryString) {
     const cube_url = process.env.KGOLAP_CUBE_URL;
     const file_url = process.env.KGOLAP_FILE_URL;
@@ -136,6 +164,11 @@ async function getKGData(uuid, queryString) {
     }
 }
 
+/**
+ * Fetches test data from the file system and stores it in the database and redis
+ * @param {string} uuid
+ * @returns {Promise<void>}
+ */
 async function getTestData(uuid) {
     fs.readFile("./testData/timestamps.json", (err, data) => {
         if (err) throw err;
@@ -150,6 +183,12 @@ async function getTestData(uuid) {
     await parseData(uuid, fileStream, prefix);
 }
 
+/**
+ * Parses a given input stream and stores the quads in redis
+ * @param {string} uuid
+ * @param {inputStream} inputStream
+ * @param {{prefix: string, replacement: string}} prefix
+ */
 function parseData(uuid, inputStream, prefix) {
     const parser = new N3.Parser({format: 'N-Quads'});
     parser.parse(inputStream, quadCallback);

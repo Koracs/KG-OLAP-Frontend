@@ -3,7 +3,14 @@ import * as d3 from "d3";
 import jsdom from "jsdom";
 
 
-
+/**
+ * Pre-render a graph on the server side to a svg using D3.js
+ * @param {[]} quads Array of quads
+ * @param {number} width width of the svg
+ * @param {number} height height of the svg
+ * @param {number} force charging force of the D3.js simulation
+ * @returns {Promise<string>} SVG string
+ */
 export default async function preRenderGraph(quads, width = 640, height = 500, force = -5) {
     const graphData = triplesToGraph(quads);
     const nodes = graphData.nodes;
@@ -81,6 +88,11 @@ export default async function preRenderGraph(quads, width = 640, height = 500, f
     return svg.node().outerHTML;
 }
 
+/**
+ * Converts an array of triples to a data that is used for a D3 force graph
+ * @param {[]} triples Array of triples
+ * @returns {{nodes: *[], links: *[]}} Data for a D3 force graph
+ */
 function triplesToGraph(triples) {
     const graph = {nodes: [], links: []};
 

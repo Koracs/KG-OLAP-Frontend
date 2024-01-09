@@ -7,6 +7,11 @@ import {redirect} from "next/navigation";
 import {executeQuery} from "@/app/_lib/queryaction";
 import {isRedirectError} from "next/dist/client/components/redirect";
 
+/**
+ * Deletes a result from the database and redis
+ * @param {string} uuid
+ * @returns {Promise<void>}
+ */
 export async function deleteResult(uuid) {
     try {
         await deleteDBEntry(uuid);
@@ -18,6 +23,11 @@ export async function deleteResult(uuid) {
     redirect("/results")
 }
 
+/**
+ * Reruns a result by deleting the current results and running the query again
+ * @param {string} uuid
+ * @returns {Promise<void>}
+ */
 export async function rerunResult(uuid) {
     try {
         //get query string and test mode indicator from database
@@ -45,7 +55,11 @@ export async function rerunResult(uuid) {
     revalidatePath("/results/" + uuid)
 }
 
-
+/**
+ * Deletes a result from the database
+ * @param {string} uuid
+ * @returns {Promise<void>}
+ */
 export async function deleteDBEntry(uuid) {
     //delete entry in database with query string
     prisma.queryResult.delete({
@@ -60,6 +74,11 @@ export async function deleteDBEntry(uuid) {
 
 }
 
+/**
+ * Deletes a result from redis
+ * @param {string} uuid
+ * @returns {Promise<void>}
+ */
 export async function deleteRedisEntry(uuid) {
     const keys = await redisClient.scan(0, {MATCH: uuid + "*"}).then((result) => {
         return result.keys;
@@ -68,20 +87,5 @@ export async function deleteRedisEntry(uuid) {
         redisClient.del(key).catch((error) => {
             console.warn(error);
         });
-    });
-}
-
-export async function updateDBEntry(uuid, queryText) {
-    //update entry in database with query string
-    prisma.queryResult.update({
-        where: {
-            id: uuid
-        }, data: {
-            queryText: queryText
-        }
-    }).then((result) => {
-        console.log("Update DB Entry " + uuid + " successfully.");
-    }).catch((error) => {
-        console.warn(error);
     });
 }
