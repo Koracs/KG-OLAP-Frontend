@@ -25,13 +25,13 @@ The results, which are stored in a **Redis cache**, can be **re-executed** with 
 
 ## Example .env
 ```
-KEYCLOAK_AUTH_SERVER_URL=http://localhost:8080
-JWK_SET_URI=http://localhost:8080/realms/kgolap/protocol/openid-connect/certs
+KEYCLOAK_AUTH_SERVER_URL=http://localhost:8081
+JWK_SET_URI=http://localhost:8081/realms/kgolap/protocol/openid-connect/certs
 KEYCLOAK_ID=nextjs-frontend
 KEYCLOAK_SECRET=YOURSECRETHERE (From installation step 3)
-KEYCLOAK_ISSUER=http://localhost:8080/auth/realms/kgolap
-KEYCLOAK_REFRESH_TOKEN_URL=http://localhost:8080/auth/realms/kgolap/protocol/openid-connect/token
-END_SESSION_URL=http://localhost:8080/auth/realms/kgolap/protocol/openid-connect/logout
+KEYCLOAK_ISSUER=http://localhost:8081/auth/realms/kgolap
+KEYCLOAK_REFRESH_TOKEN_URL=http://localhost:8081/auth/realms/kgolap/protocol/openid-connect/token
+END_SESSION_URL=http://localhost:8081/auth/realms/kgolap/protocol/openid-connect/logout
 NEXTAUTH_SECRET=YOURSECRETHERE (Random String)
 NEXTAUTH_URL_INTERNAL=http://localhost:3000/
 KGOLAP_SURFACE_URL=http://localhost:8080/kgolap
