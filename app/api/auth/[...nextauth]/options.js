@@ -1,5 +1,4 @@
 import KeycloakProvider from "next-auth/providers/keycloak";
-import GithubProvider from "next-auth/providers/github";
 import {console} from "next/dist/compiled/@edge-runtime/primitives";
 
 
@@ -27,7 +26,6 @@ async function refreshAccessToken(token) {
 }
 
 export const options = {
-    debug: true,
     providers: [
         KeycloakProvider({
             clientId: process.env.KEYCLOAK_ID,
