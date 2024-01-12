@@ -78,9 +78,8 @@ services:
       KEYCLOAK_SECRET: ${KEYCLOAK_SECRET}
       KEYCLOAK_ISSUER: ${KEYCLOAK_URL}/auth/realms/kgolap
       KEYCLOAK_REFRESH_TOKEN_URL: ${KEYCLOAK_URL}/auth/realms/kgolap/protocol/openid-connect/token
-      #KEYCLOAK_WELLKNOWN: http://kgolap-keycloak:8080/auth/realms/kgolap/.well-known/openid-configuration
       END_SESSION_URL: ${KEYCLOAK_URL}/auth/realms/kgolap/protocol/openid-connect/logout
-      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
       NEXTAUTH_URL_INTERNAL: ${NEXTAUTH_URL_INTERNAL}
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
       KGOLAP_SURFACE_URL: ${KGOLAP_SURFACE_URL}

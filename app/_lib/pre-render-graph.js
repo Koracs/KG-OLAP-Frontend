@@ -63,7 +63,7 @@ export default async function preRenderGraph(quads, width = 640, height = 500, f
         .attr("x2", (d) => d.target.x)
         .attr("y2", (d) => d.target.y)
         .attr("onmouseover", "this.style.strokeWidth='2px'")
-        .attr("onmouseout", "this.style.strokeWidth='1px'")
+        .attr("onmouseout", "this.style.strokeWidth='0.5px'")
         .append('svg:title')
         .text((d) => d.predicate);
 
