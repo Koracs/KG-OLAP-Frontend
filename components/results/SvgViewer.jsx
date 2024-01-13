@@ -28,7 +28,7 @@ export default function SvgViewer({svg, width, height}) {
             <ReactSvgPanZoomLoader svgXML={svg} render={(content) => (
                 <ReactSVGPanZoom
                     ref={Viewer}
-                    width={width} height={height}
+                    width={1280} height={720}
                     tool={tool} onChangeTool={setTool}
                     value={value} onChangeValue={setValue}
                     SVGBackground={"transparent"}
