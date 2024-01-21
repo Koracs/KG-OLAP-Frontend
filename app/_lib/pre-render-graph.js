@@ -97,32 +97,31 @@ function triplesToGraph(triples) {
     const graph = {nodes: [], links: []};
 
     triples.forEach((triple) => {
-        let subjId = triple.subject;
-        let predId = triple.predicate;
-        let objId = triple.object;
+        let subjectId = triple.subject;
+        let predicateId = triple.predicate;
+        let objectId = triple.object;
 
-        //check if node already exists
-        let subjNode = filterNodesById(graph.nodes, subjId)[0];
-        let objNode = filterNodesById(graph.nodes, objId)[0];
-
-        if (subjNode == null) {
-            subjNode = {id: subjId, label: subjId, weight: 1};
-            graph.nodes.push(subjNode);
+        //check if subject already exists
+        let subjectNode = filterNodesById(graph.nodes, subjectId)[0];
+        if (subjectNode == null) {
+            subjectNode = {id: subjectId, label: subjectId, weight: 1};
+            graph.nodes.push(subjectNode);
         }
 
-        if (objNode == null) {
-            objNode = {id: objId, label: objId, weight: 1};
-            graph.nodes.push(objNode);
+        //check if object already exists
+        let objectNode = filterNodesById(graph.nodes, objectId)[0];
+        if (objectNode == null) {
+            objectNode = {id: objectId, label: objectId, weight: 1};
+            graph.nodes.push(objectNode);
         }
 
-        graph.links.push({source: subjNode, target: objNode, predicate: predId, weight: 1});
+        //add link between subject and object
+        graph.links.push({source: subjectNode, target: objectNode, predicate: predicateId, weight: 1});
     });
 
     return graph;
 }
 
 function filterNodesById(nodes, id) {
-    return nodes.filter((n)=> {
-        return n.id === id;
-    });
+    return nodes.filter((n)=> n.id === id);
 }
