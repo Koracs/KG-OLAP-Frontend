@@ -39,7 +39,7 @@ export default async function ResultGraphPage({params, searchParams}) {
                 <label htmlFor="height"> Height: </label>
                 <input type={"number"} id="heigth" name="height" defaultValue={height}/>
                 <label htmlFor="force"> Force: </label>
-                <input type={"number"} id="force" name="force" defaultValue={force}/>
+                <input type={"number"} id="force" name="force" max={"0"} defaultValue={force}/>
                 <ReRenderButton rerenderAction={rerender} className={"button"}/>
             </form>
             <h2>{searchParams.context}</h2>
