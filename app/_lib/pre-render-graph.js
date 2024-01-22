@@ -89,7 +89,8 @@ export default async function preRenderGraph(quads, width = 640, height = 500, f
 }
 
 /**
- * Converts an array of triples to a data that is used for a D3 force graph
+ * Converts an array of triples to a data that is used for a D3 force graph.
+ * Adapted from: https://github.com/Rathachai/d3rdf
  * @param {[]} triples Array of triples
  * @returns {{nodes: *[], links: *[]}} Data for a D3 force graph
  */

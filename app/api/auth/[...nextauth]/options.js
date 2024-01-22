@@ -1,6 +1,10 @@
 import KeycloakProvider from "next-auth/providers/keycloak";
 import {console} from "next/dist/compiled/@edge-runtime/primitives";
 
+/*
+ * Keycloak callbacks and token refresh adapted from:
+ * https://github.com/leodip/demo-golang-fiber-keycloak-nextjs
+ */
 
 async function refreshAccessToken(token) {
     const resp = await fetch(`${process.env.KEYCLOAK_REFRESH_TOKEN_URL}`, {
