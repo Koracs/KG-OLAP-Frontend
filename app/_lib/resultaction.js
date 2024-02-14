@@ -80,12 +80,31 @@ export async function deleteDBEntry(uuid) {
  * @returns {Promise<void>}
  */
 export async function deleteRedisEntry(uuid) {
-    const keys = await redisClient.scan(0, {MATCH: uuid + "*"}).then((result) => {
-        return result.keys;
-    });
+    let keys = [];
+    await scanKeys(0, uuid, keys);
+
     keys.forEach((key) => {
         redisClient.del(key).catch((error) => {
             console.warn(error);
         });
+    });
+}
+
+/**
+ * Fetches the keys for a given uuid from redis
+ * @param {number} cursor - Redis cursor, start with 0
+ * @param {string} uuid
+ * @param {[]} returnSet
+ * @returns {Promise<any>}
+ */
+function scanKeys(cursor, uuid,  returnSet) {
+    return redisClient.scan(cursor, {MATCH: uuid + "*"}).then((result) => {
+        cursor = result.cursor;
+        returnSet.push(...result.keys);
+        if (cursor === 0) {
+            return returnSet;
+        } else {
+            return scanKeys(cursor, uuid, returnSet)
+        }
     });
 }
