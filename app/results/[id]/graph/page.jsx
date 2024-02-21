@@ -3,6 +3,7 @@ import PreRenderedGraph from "@/components/results/PreRenderedGraph";
 import {Suspense} from "react";
 import {redirect} from "next/navigation";
 import ReRenderButton from "@/components/ui/ReRenderButton";
+import DownloadButton from "@/components/results/DownloadButton";
 
 export default async function ResultGraphPage({params, searchParams}) {
     const width = Number(searchParams?.width) || 1280;
@@ -35,13 +36,20 @@ export default async function ResultGraphPage({params, searchParams}) {
             <h1>Query Result Graph</h1>
             <form>
                 <label htmlFor="width">Width: </label>
-                <input type={"number"} id="width" name="width" defaultValue={width} />
+                <input type={"number"} id="width" name="width" defaultValue={width}/>
                 <label htmlFor="height"> Height: </label>
                 <input type={"number"} id="heigth" name="height" defaultValue={height}/>
                 <label htmlFor="force"> Force: </label>
                 <input type={"number"} id="force" name="force" max={"0"} defaultValue={force}/>
                 <ReRenderButton rerenderAction={rerender} className={"button"}/>
             </form>
+            <DownloadButton
+                uuid={params?.id}
+                context={searchParams.context}
+                width={width}
+                height={height}
+                force={force}
+                className={"button"}/>
             <h2>{searchParams.context}</h2>
             <Suspense fallback={<div>Generating Graph...</div>}>
                 <PreRenderedGraph

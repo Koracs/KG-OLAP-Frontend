@@ -126,3 +126,69 @@ function triplesToGraph(triples) {
 function filterNodesById(nodes, id) {
     return nodes.filter((n)=> n.id === id);
 }
+
+/**
+ * Pre-render a graph on the server side for download to a svg using D3.js
+ * @param {[]} quads Array of quads
+ * @param {number} width width of the svg
+ * @param {number} height height of the svg
+ * @param {number} force charging force of the D3.js simulation
+ * @returns {Promise<string>} SVG string
+ */
+export async function downloadGraph(quads, width = 640, height = 500, force = -5) {
+    const graphData = triplesToGraph(quads);
+    const nodes = graphData.nodes;
+    const links = graphData.links;
+
+    const {JSDOM} = jsdom;
+    const {document} = (new JSDOM('')).window;
+    global.document = document;
+
+    const body = d3.select(document).select("body");
+
+    // Create a simulation for the given graph
+    const simulation = d3.forceSimulation(nodes)
+        .force("link", d3.forceLink(links).id((d) => d.id))
+        .force("charge", d3.forceManyBody().strength(force))
+        .force("center", d3.forceCenter(width / 2, height / 2))
+        .force("x", d3.forceX(width / 2))
+        .force("y", d3.forceY(height / 2))
+
+    // Create an SVG element
+    const svg = body.append("svg")
+        .attr("xmlns", "http://www.w3.org/2000/svg")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("viewBox", [0, 0, width, height]);
+
+    // Run the simulation to its end, then draw.
+    simulation.tick(Math.ceil(Math.log(simulation.alphaMin()) / Math.log(1 - simulation.alphaDecay())));
+    simulation.stop();
+
+    // Draw the links
+    svg.append("g")
+        .attr("stroke", "black")
+        .attr("stroke-width", 0.5)
+        .selectAll("line")
+        .data(links)
+        .join("line")
+        .attr("x1", (d) => d.source.x)
+        .attr("y1", (d) => d.source.y)
+        .attr("x2", (d) => d.target.x)
+        .attr("y2", (d) => d.target.y)
+
+    // Draw the nodes
+    svg.append("g")
+        .attr("fill", "black")
+        .attr("stroke", "white")
+        .attr("stroke-width", 1)
+        .selectAll("circle")
+        .data(nodes)
+        .join("circle")
+        .attr("cx", (d) => d.x)
+        .attr("cy", (d) => d.y)
+        .attr("r", 4)
+
+    // console.log("Pre-render graph successfully.")
+    return svg.node().outerHTML;
+}
