@@ -58,3 +58,7 @@ NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=YOURSECRETHERE (Random String)
 ```
 
+## Literature
+[1]	B. Ahmad, "A Distributed and Parallel Processing Framework for Knowledge Graph OLAP," in The Semantic Web: ESWC 2023 Satellite Events: Hersonissos, Crete, Greece, May 28 - June 1, 2023, Proceedings, 2023, pp. 288–297. [Online]. Available: https://link.springer.com/chapter/10.1007/978-3-031-43458-7_47
+
+[2]	C. G. Schuetz, L. Bozzato, B. Neumayr, M. Schrefl, and L. Serafini, "Knowledge Graph OLAP: A multidimensional model and query operations for contextualized knowledge graphs," Semantic Web 12, 2021, doi: 10.3233/SW-200419.
