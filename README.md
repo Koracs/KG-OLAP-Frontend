@@ -1,4 +1,4 @@
-# KGOLAPFrontEnd
+# KG-OLAP Frontend
 Big KG-OLAP is a framework for knowledge graph OLAP systems, where the user can ingest vast amount of data and then perform analytics using **SQL-like queries**. 
 The system is based on Knowledge graphs and **provides a RESTful API** to allow the user to ingest new data to the system and query from the system.
 This frontend is a **Next.js** application that provides a user interface for the system.
